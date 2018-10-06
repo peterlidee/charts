@@ -1,0 +1,14 @@
+{
+  "name": "charts",
+  "version": "1.0.0",
+  "description": "Portfolio project using charts.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "peter@lidee",
+  "license": "ISC",
+  "dependencies": {
+    "html5-boilerplate": "^6.1.0"
+  }
+}
