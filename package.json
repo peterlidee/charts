@@ -4,7 +4,7 @@
   "description": "Portfolio project using charts.js",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development",
+    "dev": "webpack --mode development --watch",
     "build": "webpack --mode production"
   },
   "author": "peter@lidee",
