@@ -7,49 +7,48 @@ const countries = [
   'Czech Republic', 'Latvia', 'Lithuania', 'Slovak Republic', 'United Kingdom', 'Croatia', 'Serbia',
   'Bosnia and Herzegovina', 'Bulgaria', 'Czech Republic', 'Hungary', 'Slovenia', 'Switzerland'];
 
-console.log(countries);
-
-let endpoint = "http://api.population.io/1.0/population/2018/Belgium/";
-
-fetch(endpoint)
-  .then(response => {
-
-    if (response.status !== 200) {
-      console.log('Looks like there was a problem. Status Code: ' +
-        response.status);
-      return;
-    }
-
-    // Examine the text in the response
-    response.json().then((data) => {
-      console.log(data);
-      calculateTotalPopulation(data);
-    });
-
-  }).catch(function(err) {
-    console.log('Fetch Error :-S', err);
-});
-
 function getCountryData(country, year){
   const endpoint = `http://api.population.io/1.0/population/${year}/${country}/`;
-  //const result = [];
+  const result = [];
   fetch(endpoint)
     .then(response => {
-      if (response.status !== 200) {
-        return [];
-      }
       response.json().then((data) => {
-        return data;
+        result.push(...data);
       });
     }).catch(function(err) {
       //console.log('Fetch Error :-S', err);
-      return [];
+      result.push(false);
   });
+  //console.log('data gotten');
+  return result;
 }
 
+//console.log(getCountryData('Belgium', 2018));
+
 function calculateTotalPopulation(arr){
-  const total = arr.reduce((acc, curr) => {
-    return acc + curr.total;
+  //console.log(arr);
+  /*const total = arr.reduce((acc, curr) => {
+    //acc = acc + curr.total;
+    //console.log('test');
+    //return acc;
+    console.log(curr);
+    //return acc + curr.total;
   }, 0);
-  console.log(total);
+  return total;*/
+  //console.log()
+  arr.map(item => {
+    //console.log(item);
+  });
+  //console.log(total);
 }
+
+const countriesData = countries.map(country => getCountryData(country, 2018));
+//console.log(countriesData);
+
+//const countriesTotalPopulations = countriesData.map(countryData => calculateTotalPopulation(countryData));
+
+const aCountry = getCountryData('Belgium', 2018);
+const aPop = calculateTotalPopulation(aCountry);
+//console.log(aCountry, aPop);
+
+//console.log(countriesTotalPopulations);
