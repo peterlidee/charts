@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Test from "./Test";
 
 class ChartApp extends React.Component{
   constructor(props){
@@ -40,6 +41,7 @@ class ChartApp extends React.Component{
     return arr.reduce((acc, curr) => acc + curr.total, 0);
   }
 
+  // this does the fetch to the api
   doFetch(arr, param){
     return arr.map(item => {
       // all countries in 2018
@@ -95,11 +97,12 @@ class ChartApp extends React.Component{
   }
 
   render(){
-    console.log('state data', this.state.data);
-    const totalPop = this.calculateTotalPopulation(this.state.data);
+    //console.log('state data', this.state.data);
+    //const totalPop = this.calculateTotalPopulation(this.state.data);
     return (
       <div>
-        <p>total pop of {this.state.country} is {totalPop}</p>
+        <p>Country: {this.state.country}, Year: {this.state.year}.</p>
+        <Test />
       </div>
     );
   };
