@@ -46,6 +46,10 @@ class Test extends React.Component {
             //display: false,
             //autoskip: false,
             //padding: 50
+            // change the tick text
+            callback: function(value, index, values) {
+              return prettyfyPopulationNum(+value);
+            }
           }
         }]
       },
