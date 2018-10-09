@@ -19,7 +19,7 @@ class ChartApp extends React.Component{
     this.countries = [
       'Belgium', 'France', 'Luxembourg', 'Germany', 'The Netherlands', 'Spain', 'Italy', 'Greece',
       'Portugal', 'Austria', 'Denmark', 'Norway', 'Sweden', 'Finland', 'Ireland', 'Poland', 'Estonia',
-      'Czech Republic', 'Latvia', 'Lithuania', 'Slovak Republic', 'United Kingdom', 'Croatia', 'Serbia',
+      'Latvia', 'Lithuania', 'Slovak Republic', 'United Kingdom', 'Croatia', 'Serbia',
       'Bosnia and Herzegovina', 'Bulgaria', 'Czech Republic', 'Hungary', 'Slovenia', 'Switzerland2'
     ];
     this.years = this.renderYearsArray();
@@ -102,7 +102,7 @@ class ChartApp extends React.Component{
     return (
       <div>
         <p>Country: {this.state.country}, Year: {this.state.year}.</p>
-        <Test />
+        <Test data={this.state.data} />
       </div>
     );
   };
