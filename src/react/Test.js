@@ -1,5 +1,6 @@
 import React from 'react';
 import {HorizontalBar} from 'react-chartjs-2';
+import {prettyfyPopulationNum} from '../helpers.js'
 
 class Test extends React.Component {
   render() {
@@ -32,23 +33,6 @@ class Test extends React.Component {
         }
       ]
     };
-
-    // format number from 10000 to '10.000'
-    const prettyfyPopulationNum = (num) => {
-      let myArray = num.toString().split('').reverse();
-      let counter = 0;
-      let newArray = [];
-      for(let i = 0; i < myArray.length; i++){
-        if(counter === 3){
-          newArray.push('.');
-          counter = 1;
-        }else{
-          counter++;
-        }
-        newArray.push(myArray[i]);
-      }
-      return newArray.reverse().join('');
-    }
 
     const options = {
       /*title: {
