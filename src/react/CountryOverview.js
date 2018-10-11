@@ -11,14 +11,14 @@ class CountryOverview extends React.Component {
 
   componentDidMount() {
 
-    //console.log(Chart.pluginService);
     // chart.js does not have an onClick handler for ticks, so we write it here
+    // this handles clicks on ticks, see also options .onclick for clicks on bars
   	Chart.pluginService.register({
       afterEvent: function handleTickClick(chartInstance, chartEvent) {
 
         if( chartEvent.type === 'click'){
           // reset the property tickLabel on chartInstance with false
-          chartInstance.tickLabel = false;
+          chartInstance.labelTick = false;
 
           const yAxis = chartInstance.chart.chart.scales['y-axis-0'];
           const x = chartEvent.x;
@@ -26,9 +26,8 @@ class CountryOverview extends React.Component {
           // only accept clicks in the area of the ticks (horizontal or vertical axis)
           if ( x < yAxis.right && x > yAxis.left && y < yAxis.bottom && y > yAxis.top) {
             var index = yAxis.getValueForPixel(y);
-            //console.log('klik', chartInstance.data.labels[index]);
             // set a property on chartInstance with the value of the tick clicked
-            chartInstance.tickLabel = chartInstance.data.labels[index];
+            chartInstance.labelTick = chartInstance.data.labels[index];
           }
         }
       }
@@ -42,7 +41,8 @@ class CountryOverview extends React.Component {
 
     //console.log(this.props.data);
     const rawData = this.props.data.sort((a, b) => a.population < b.population);
-    console.log(rawData);
+    //console.log(rawData);
+
     const data = {
       labels: rawData.map(item => item.countryName),
       datasets: [
@@ -119,14 +119,13 @@ class CountryOverview extends React.Component {
         display: true
       },
       onClick: function(e, arr) {
-        //console.log(e.target, arr); //arr[0]._view.label
+        // this handles clicks on bars, see also componentDidMount
+        if(arr.length > 0){
+          this.labelBar = arr[0]._view.label;
+        }else{
+          this.labelBar = false;
+        }
       },
-      //{
-      	//onElementsClick: (elems) => { console.log(elems) },
-      	//getElementsAtEvent: (elems) => { console.log(elems) },
-      	// `elems` is an array of chartElements
-      //}
-
     }
     return (
       <div>

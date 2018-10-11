@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Controls from "./Controls";
 import CountryOverview from "./CountryOverview";
 
 class ChartApp extends React.Component{
@@ -7,7 +8,7 @@ class ChartApp extends React.Component{
     super(props);
     this.state = {
       view: 'all', // all - single
-      country: 'Belgium',
+      country: '',
       year: 2018,
       isLoading: true,
       data: [],
@@ -17,6 +18,7 @@ class ChartApp extends React.Component{
     this.renderYearsArray = this.renderYearsArray.bind(this);
     this.calculateTotalPopulation = this.calculateTotalPopulation.bind(this);
     this.handleCountrySelect = this.handleCountrySelect.bind(this);
+    this.handleControles = this.handleControles.bind(this);
 
     // 2 arrays: one with all the countries, one with all the years (20)
     this.countries = [
@@ -72,7 +74,7 @@ class ChartApp extends React.Component{
     // http://api.population.io/1.0/population/2018/Belgium/
 
     const fetchArray = (this.state.view === 'all') ? this.countries : this.years;
-    const fetchParam = (this.state.view === 'all') ? `${this.state.year}-01-01` : this.state.country;
+    const fetchParam = (this.state.view === 'all') ? '2018-01-01' : this.state.country;
     const fetch = this.doFetch(fetchArray, fetchParam);
     //console.log(fetchArray, fetchParam, fetch);
 
@@ -99,22 +101,32 @@ class ChartApp extends React.Component{
 
   }
   handleCountrySelect(){
-
-    // option 1: tick label click
-
+    // this handles 2 events: click on tick label or click on bar
     // get the ref inside the ref
     const ref = this.countryOverviewRef.current.horizontalBarRef.current;
-    // from this get the tickValue
-    const tickLabel = ref.chartInstance.tickLabel;
-    console.log(tickLabel);
+    const tickLabel = ref.chartInstance.labelTick;
+    const barLabel = ref.chartInstance.labelBar;
 
-    // if tickLabel = false -> no click on a tick occured, else
-    if(tickLabel){
+    if(tickLabel){ this.setState({ country: tickLabel })};
+    if(barLabel){ this.setState({ country: barLabel })};
+
+  }
+  handleControles(e){
+    console.log(e.target);
+    if(e.target.id === 'all' || e.target.id === 'clear'){
       this.setState({
-        country: tickLabel
+        view: 'all',
+        country: '',
+      });
+    }else if(e.target.id === 'year'){
+      this.setState({
+        year: e.target.value
+      });
+    }else if(e.target.id === 'country'){
+      this.setState({
+        country: e.target.value
       });
     }
-
   }
 
   render(){
@@ -122,7 +134,12 @@ class ChartApp extends React.Component{
     //const totalPop = this.calculateTotalPopulation(this.state.data);
     return (
       <div>
-        <p>Country: {this.state.country}, Year: {this.state.year}.</p>
+        <p>All countries > Country: {this.state.country}, Year: {this.state.year}.</p>
+        <Controls
+          view={this.state.view}
+          country={this.state.country} countries={this.countries}
+          year={this.state.year} years={this.years}
+          handleControles={this.handleControles} />
         <CountryOverview data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />
       </div>
     );
