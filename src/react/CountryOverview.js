@@ -2,97 +2,33 @@ import React from 'react';
 import {HorizontalBar} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js'
 
-import { defaults } from 'react-chartjs-2';
-import { Chart } from 'react-chartjs-2';
-
-// Disable animating charts by default.
-//defaults.global.animation = false;
-
-console.log(defaults);
-
-
-
-
-
-
-/*defaults.global.plugin.register.onClick = function(e) {
-  console.log(e);
-  //update_caption(legendItem);
-  //original.call(this, e, legendItem);
-};*/
-
-/*defaults.scale.ticks.callback = {
-
-}*/
-
-//defaults.scale.ticks.display = false;
-
-/*defaults.global.plugin.register({
-  onEvent: function(chartInstance, chartEvent) {
-    var xAxis = chartInstance.scales['x-axis-0'];
-
-    // If mouse is over the legend, change cursor style to pointer, else don't show it
-    var x = chartEvent.x;
-    var y = chartEvent.y;
-
-    if (chartEvent.type === 'click' &&
-    	x <= xAxis.right && x >= xAxis.left &&
-      y <= xAxis.bottom && y >= xAxis.top) {
-      // category scale returns index here for some reason
-      var index = xAxis.getValueForPixel(x);
-      //document.getElementById('tick').innerHTML = chartInstance.data.labels[index];
-      console.log('click value?', chartInstance.data.labels[index]);
-    }
-  }
-});*/
-
-/*Chart.plugins.register({
-  onEvent: function(chartInstance, chartEvent) {
-    var xAxis = chartInstance.scales['x-axis-0'];
-
-    // If mouse is over the legend, change cursor style to pointer, else don't show it
-    var x = chartEvent.x;
-    var y = chartEvent.y;
-
-    if (chartEvent.type === 'click' &&
-    	x <= xAxis.right && x >= xAxis.left &&
-      y <= xAxis.bottom && y >= xAxis.top) {
-      // category scale returns index here for some reason
-      var index = xAxis.getValueForPixel(x);
-      document.getElementById('tick').innerHTML = chartInstance.data.labels[index];
-    }
-  }
-});*/
-
-
-class Test extends React.Component {
+class CountryOverview extends React.Component {
   constructor(props){
     super(props);
-  }
-  test(tick){
-    console.log(handleTickClick());
-    //console.log('click', params[0], params[1])
-    //console.log(chart)
+    //this.test = this.test.bind(this);
+    this.horizontalBarRef = React.createRef();
   }
 
-  componentWillMount() {
+  componentDidMount() {
 
     //console.log(Chart.pluginService);
     // chart.js does not have an onClick handler for ticks, so we write it here
   	Chart.pluginService.register({
       afterEvent: function handleTickClick(chartInstance, chartEvent) {
+
         if( chartEvent.type === 'click'){
+          // reset the property tickLabel on chartInstance with false
+          chartInstance.tickLabel = false;
+
           const yAxis = chartInstance.chart.chart.scales['y-axis-0'];
           const x = chartEvent.x;
           const y = chartEvent.y;
           // only accept clicks in the area of the ticks (horizontal or vertical axis)
           if ( x < yAxis.right && x > yAxis.left && y < yAxis.bottom && y > yAxis.top) {
-            // category scale returns index here for some reason
             var index = yAxis.getValueForPixel(y);
-            //document.getElementById('tick').innerHTML = chartInstance.data.labels[index];
-            console.log('klik', chartInstance.data.labels[index]);
-            //this.test(chartInstance.data.labels[index]);
-            return chartInstance.data.labels[index];
+            //console.log('klik', chartInstance.data.labels[index]);
+            // set a property on chartInstance with the value of the tick clicked
+            chartInstance.tickLabel = chartInstance.data.labels[index];
           }
         }
       }
@@ -100,6 +36,10 @@ class Test extends React.Component {
   }
 
   render() {
+
+    //console.log(Chart);
+
+
     //console.log(this.props.data);
     const rawData = this.props.data.sort((a, b) => a.population < b.population);
     console.log(rawData);
@@ -191,10 +131,10 @@ class Test extends React.Component {
     return (
       <div>
         <h2>Line Example</h2>
-        <HorizontalBar data={data} options={options} />
+        <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
       </div>
     )
   }
 }
 
-export default Test;
+export default CountryOverview;

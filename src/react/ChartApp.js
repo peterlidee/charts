@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Test from "./Test";
+import CountryOverview from "./CountryOverview";
 
 class ChartApp extends React.Component{
   constructor(props){
@@ -13,9 +13,12 @@ class ChartApp extends React.Component{
       data: [],
       error: false
     }
-    //this.endpoint =
+    this.countryOverviewRef = React.createRef();
     this.renderYearsArray = this.renderYearsArray.bind(this);
     this.calculateTotalPopulation = this.calculateTotalPopulation.bind(this);
+    this.handleCountrySelect = this.handleCountrySelect.bind(this);
+
+    // 2 arrays: one with all the countries, one with all the years (20)
     this.countries = [
       'Belgium', 'France', 'Luxembourg', 'Germany', 'The Netherlands', 'Spain', 'Italy', 'Greece',
       'Portugal', 'Austria', 'Denmark', 'Norway', 'Sweden', 'Finland', 'Ireland', 'Poland', 'Estonia',
@@ -95,6 +98,24 @@ class ChartApp extends React.Component{
     .catch(error => this.setState({ error: error, isLoading: false }));
 
   }
+  handleCountrySelect(){
+
+    // option 1: tick label click
+
+    // get the ref inside the ref
+    const ref = this.countryOverviewRef.current.horizontalBarRef.current;
+    // from this get the tickValue
+    const tickLabel = ref.chartInstance.tickLabel;
+    console.log(tickLabel);
+
+    // if tickLabel = false -> no click on a tick occured, else
+    if(tickLabel){
+      this.setState({
+        country: tickLabel
+      });
+    }
+
+  }
 
   render(){
     //console.log('state data', this.state.data);
@@ -102,7 +123,7 @@ class ChartApp extends React.Component{
     return (
       <div>
         <p>Country: {this.state.country}, Year: {this.state.year}.</p>
-        <Test data={this.state.data} />
+        <CountryOverview data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />
       </div>
     );
   };
