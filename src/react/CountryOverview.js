@@ -40,7 +40,13 @@ class CountryOverview extends React.Component {
 
 
     //console.log(this.props.data);
-    const rawData = this.props.data.sort((a, b) => a.population < b.population);
+    const rawData = this.props.data.map(item => {
+      if(item.population === undefined){
+        return { population: 0, countryName: item.countryName }
+      }else{
+        return item;
+      }
+    }).sort((a, b) => a.population < b.population);
     //console.log(rawData);
 
     const data = {
