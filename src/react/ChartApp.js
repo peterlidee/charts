@@ -9,7 +9,7 @@ class ChartApp extends React.Component{
     super(props);
     this.state = {
       view: 'single', // all - single
-      country: '',
+      country: 'Belgium',
       year: 2018,
       isLoading: true,
       data: [],
@@ -55,6 +55,7 @@ class ChartApp extends React.Component{
       // all years
       // http://api.population.io/1.0/population/${year}/Belgium/
       const endpoint = `http://api.population.io/1.0/population/${item}/${param}/`;
+      //console.log(endpoint);
       return fetch(endpoint)
         .then(response => {
           // return false as value if the response was not ok
@@ -94,6 +95,7 @@ class ChartApp extends React.Component{
   }
 
   componentDidMount() {
+    //console.log('comp did mount ran');
     this.setState({ isLoading: true });
 
     // 2 cases:
@@ -105,25 +107,27 @@ class ChartApp extends React.Component{
     // http://api.population.io/1.0/population/2018/Belgium/
 
     const fetchArray = (this.state.view === 'all') ? this.countries : this.years;
-    const fetchParam = (this.state.view === 'all') ? '2018-01-01' : this.state.country;
+    const fetchParam = (this.state.view === 'all') ? `${this.state.year}-01-01` : this.state.country;
     const fetch = this.doFetch(fetchArray, fetchParam);
     //console.log(fetchArray, fetchParam, fetch);
 
     Promise.all(fetch)
       .then( values => {
         const combinedData = values.map((value, i) => {
-        //console.log(value);
+          //console.log(value);
 
-        if(!value){ // if there was no response, return undefined as data
-          return (this.state.view === 'all') ?
-            { 'countryName': fetchArray[i], 'population': undefined } :
-            { 'year': fetchArray[i], 'population': undefined };
-        }else{ // else return the data
-          return (this.state.view === 'all') ?
-            { 'countryName': fetchArray[i], 'population': value.total_population.population } :
-            { 'year': fetchArray[i], 'population': value };
-        }
-      });
+          if(!value){ // if there was no response, return undefined as data
+            //console.log(value)
+            return (this.state.view === 'all') ?
+              { 'countryName': fetchArray[i], 'population': undefined } :
+              { 'year': fetchArray[i], 'population': undefined };
+          }else{ // else return the data
+            return (this.state.view === 'all') ?
+              { 'countryName': fetchArray[i], 'population': value.total_population.population } :
+              { 'year': fetchArray[i], 'population': value };
+          }
+        });
+      //console.log(combinedData)
       this.setState({
         data: combinedData
       });
