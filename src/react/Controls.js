@@ -4,7 +4,7 @@ const Controls = (props) => {
   //console.log(props.years);
   return(
     <div>
-      <input type="button" value="All countries" id="all" onClick={(e) => props.handleControles(e)} />
+      <input type="button" value="All countries" id="all" onClick={(e) => props.handleControles(e)} disabled={props.country === ''} />
       {props.view === 'single' &&
         <label>Year:
           <input id="year"
@@ -21,7 +21,7 @@ const Controls = (props) => {
           {props.countries.sort().map(country => <option key={country} value={country}>{country}</option>)}
         </select>
       </label>
-      <input type="button" value="clear" id="clear" onClick={(e) => props.handleControles(e)} />
+      <input type="button" value="clear" id="clear" onClick={(e) => props.handleControles(e)} disabled={props.country === ''} />
     </div>
   );
 }

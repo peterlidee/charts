@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Controls from "./Controls";
 import CountryOverview from "./CountryOverview";
+import SingleCountry from "./SingleCountry";
 
 class ChartApp extends React.Component{
   constructor(props){
@@ -62,6 +63,36 @@ class ChartApp extends React.Component{
     });
   }
 
+  handleCountrySelect(){
+    // this handles 2 events: click on tick label or click on bar
+    // get the ref inside the ref
+    const ref = this.countryOverviewRef.current.horizontalBarRef.current;
+    const tickLabel = ref.chartInstance.labelTick;
+    const barLabel = ref.chartInstance.labelBar;
+
+    if(tickLabel){ this.setState({ country: tickLabel, view: 'single', })};
+    if(barLabel){ this.setState({ country: barLabel, view: 'single', })};
+
+  }
+  handleControles(e){
+    //console.log(e.target);
+    if(e.target.id === 'all' || e.target.id === 'clear'){
+      this.setState({
+        view: 'all',
+        country: '',
+      });
+    }else if(e.target.id === 'year'){
+      this.setState({
+        year: e.target.value
+      });
+    }else if(e.target.id === 'country'){
+      this.setState({
+        view: 'single',
+        country: e.target.value
+      });
+    }
+  }
+
   componentDidMount() {
     this.setState({ isLoading: true });
 
@@ -100,34 +131,6 @@ class ChartApp extends React.Component{
     .catch(error => this.setState({ error: error, isLoading: false }));
 
   }
-  handleCountrySelect(){
-    // this handles 2 events: click on tick label or click on bar
-    // get the ref inside the ref
-    const ref = this.countryOverviewRef.current.horizontalBarRef.current;
-    const tickLabel = ref.chartInstance.labelTick;
-    const barLabel = ref.chartInstance.labelBar;
-
-    if(tickLabel){ this.setState({ country: tickLabel })};
-    if(barLabel){ this.setState({ country: barLabel })};
-
-  }
-  handleControles(e){
-    console.log(e.target);
-    if(e.target.id === 'all' || e.target.id === 'clear'){
-      this.setState({
-        view: 'all',
-        country: '',
-      });
-    }else if(e.target.id === 'year'){
-      this.setState({
-        year: e.target.value
-      });
-    }else if(e.target.id === 'country'){
-      this.setState({
-        country: e.target.value
-      });
-    }
-  }
 
   render(){
     //console.log('state data', this.state.data);
@@ -140,7 +143,12 @@ class ChartApp extends React.Component{
           country={this.state.country} countries={this.countries}
           year={this.state.year} years={this.years}
           handleControles={this.handleControles} />
-        <CountryOverview data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />
+        {this.state.view === 'all' &&
+          <CountryOverview data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />
+        }
+        {this.state.view === 'single' &&
+          <SingleCountry data={this.state.data} />
+        }
       </div>
     );
   };
