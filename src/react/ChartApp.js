@@ -151,7 +151,7 @@ class ChartApp extends React.Component{
           <CountryOverview data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />
         }
         {this.state.view === 'single' &&
-          <SingleCountry data={this.state.data} />
+          <SingleCountry data={this.state.data} year={this.state.year} />
         }
       </div>
     );

@@ -9,13 +9,13 @@ class SingleCountry extends React.Component{
   render(){
 
 
-    const countryData = this.props.data;
+    const countriesData = this.props.data;
     //console.log(countryData)
 
 
-    // gather relevant data arrays
+    // gather relevant data arrays [1],[2]
     // [1] get total all, male and female pop per year in curr country
-    const countriesPerYear = countryData.map(item => {
+    const countriesPerYear = countriesData.map(item => {
       // handle no data
       if(item.population === undefined){
         return { year: item.year, total: 0, males: 0, females: 0 };
@@ -46,6 +46,37 @@ class SingleCountry extends React.Component{
     });
     //console.log(countryYears, countryTotals, countryMales, countryFemales);
 
+    // [2] get for one given year,
+    // -> the total relation man/women -> see totals above: done
+    // -> the population per age group
+    const ageGroups = [[0,17], [18,44], [45,65], [66,150]];
+    const ageGroupLabels = ['-18', '18-44', '45-65', '65+'];
+
+    // reduce the data to the totals of these ageGroups
+    // per agegroup -> {total: x, males: x, females: x}
+    const countryDataPerYear = countriesData.filter(item => item.year === this.props.year);
+    //console.log('pop', countryDataPerYear);
+    const test = ageGroups.map(ageGroup => {
+      if(countryDataPerYear.length > 0){
+        const selection = countryDataPerYear[0].population.filter(item => {
+          //console.log(item);
+          if(item.age >= ageGroup[0] && item.age <= ageGroup[1]){
+            //console.log(item);
+            return item;
+          }
+        });
+        //console.log('selection', selection);
+        return selection;
+      }
+      /*const selection = countryDataPerYear.population.filter(item => {
+        console.log(item);
+      });*/
+    });
+    console.log(test);
+
+    /*const countryPopPerYear =  countryDataPerYear.population.reduce((acc, curr){
+
+    }, {total: 0, males: 0, females: 0});*/
 
     const data = {
 
@@ -127,7 +158,9 @@ class SingleCountry extends React.Component{
             display: true,
             labelString: 'population'
           },
+
           ticks: {
+            beginAtZero: true,
             // change the tick text
             callback: function(value, index, values) {
               //console.log(value, index, values);
