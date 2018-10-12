@@ -8,7 +8,7 @@ class ChartApp extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      view: 'all', // all - single
+      view: 'single', // all - single
       country: '',
       year: 2018,
       isLoading: true,
