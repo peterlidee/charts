@@ -9,13 +9,19 @@ class SingleCountry extends React.Component{
   render(){
 
 
-    const countriesData = this.props.data;
+    const countryData = this.props.data;
     //console.log(countryData)
 
 
     // gather relevant data arrays [1],[2]
-    // [1] get total all, male and female pop per year in curr country
-    const countriesPerYear = countriesData.map(item => {
+    // [1] get total pop in curr country for every year
+    let totalsPerYear = {
+      year : [],
+      total: [],
+      males: [],
+      females: []
+    };
+    const countryPerYear = countryData.map(item => {
       // handle no data
       if(item.population === undefined){
         return { year: item.year, total: 0, males: 0, females: 0 };
@@ -30,21 +36,15 @@ class SingleCountry extends React.Component{
       totals.year = item.year;
       return totals;
     });
-    //console.log(countriesPerYear);
+    //console.log(countryPerYear);
 
     // convert to arrays
-    const countryYears = [];
-    const countryTotals = [];
-    const countryMales = [];
-    const countryFemales = [];
-
-    countriesPerYear.map(year => {
-      countryYears.push(year.year);
-      countryTotals.push(year.total);
-      countryMales.push(year.males);
-      countryFemales.push(year.females);
+    countryPerYear.map(year => {
+      Object.keys(year).map((key, i) => {
+        totalsPerYear[key].push(year[key]);
+      });
     });
-    //console.log(countryYears, countryTotals, countryMales, countryFemales);
+    //console.log('totalsPerYear', totalsPerYear);
 
     // [2] get for one given year,
     // -> the total relation man/women -> see totals above: done
@@ -54,29 +54,31 @@ class SingleCountry extends React.Component{
 
     // reduce the data to the totals of these ageGroups
     // per agegroup -> {total: x, males: x, females: x}
-    const countryDataPerYear = countriesData.filter(item => item.year === this.props.year);
-    //console.log('pop', countryDataPerYear);
-    const test = ageGroups.map(ageGroup => {
-      if(countryDataPerYear.length > 0){
-        const selection = countryDataPerYear[0].population.filter(item => {
-          //console.log(item);
-          if(item.age >= ageGroup[0] && item.age <= ageGroup[1]){
-            //console.log(item);
-            return item;
-          }
-        });
-        //console.log('selection', selection);
-        return selection;
+
+    // get current year
+    const dataCurrYear = countryData.filter(item => item.year === this.props.year);
+    // filter per agegroup
+    const agesPerAgeGroup = ageGroups.map(ageGroup => {
+      if(dataCurrYear.length > 0){
+        return dataCurrYear[0].population
+          .filter(item => item.age >= ageGroup[0] && item.age <= ageGroup[1])
       }
-      /*const selection = countryDataPerYear.population.filter(item => {
-        console.log(item);
-      });*/
     });
-    console.log(test);
+    //console.log('agesPerAgeGroup', agesPerAgeGroup);
 
-    /*const countryPopPerYear =  countryDataPerYear.population.reduce((acc, curr){
+    const ageGroupTotals = agesPerAgeGroup.map(item => {
+      if(item !== undefined){
+        return item.reduce((acc, curr) => {
+          acc.total += curr.total;
+          acc.males += curr.males;
+          acc.females += curr.females;
+          return acc;
+        }, { total: 0, males: 0, females: 0 })
+      }
+    })
+    console.log('ageGroupTotals', ageGroupTotals);
 
-    }, {total: 0, males: 0, females: 0});*/
+
 
     const data = {
 
@@ -84,7 +86,7 @@ class SingleCountry extends React.Component{
         {
           label: 'Male',
           type:'line',
-          data: countryMales,
+          data: totalsPerYear.males,
           fill: false,
           borderColor: '#00ff00',
           backgroundColor: '#00ff00',
@@ -97,7 +99,7 @@ class SingleCountry extends React.Component{
         {
           type: 'line',
           label: 'Female',
-          data: countryFemales,
+          data: totalsPerYear.females,
           fill: false,
           backgroundColor: '#ff0000',
           borderColor: '#ff0000',
@@ -109,7 +111,7 @@ class SingleCountry extends React.Component{
         {
           type: 'bar',
           label: 'total population',
-          data: countryTotals,
+          data: totalsPerYear.total,
           fill: false,
           backgroundColor: 'rgba(75,192,192,0.4)',
           borderColor: 'rgba(75,192,192,0.4)',
@@ -142,7 +144,7 @@ class SingleCountry extends React.Component{
       },
       scales: {
         xAxes: [{
-          labels: countryYears,
+          labels: totalsPerYear.year,
           scaleLabel: {
             display: true,
             labelString: 'years'
