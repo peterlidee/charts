@@ -1,6 +1,7 @@
 import React from "react";
 import CountryPerYear from "./CountryPerYear";
 import MaleFemale from "./MaleFemale";
+import AgeGroups from "./AgeGroups";
 import {Bar} from "react-chartjs-2";
 import {prettyfyPopulationNum} from "../helpers.js";
 
@@ -46,21 +47,35 @@ class SingleCountry extends React.Component{
     });
     //console.log('totalsPerYear', totalsPerYear);
 
+
+
+
+
+
     // [2] get for one given year,
     // -> the population per age group
-    const ageGroups = [[0,17], [18,44], [45,65], [66,150]];
-    const ageGroupLabels = ['-18', '18-44', '45-65', '65+'];
+    let ageGroupsData = {
+      labels : ['-18', '18-44', '45-65', '65+'],
+      total: [],
+      males: [],
+      females: []
+    };
+
+    const ageGroupRanges = [[0,17], [18,44], [45,65], [66,150]];
+    //const ageGroupLabels = ['-18', '18-44', '45-65', '65+'];
 
     // reduce the data to the totals of these ageGroups
     // per agegroup -> {total: x, males: x, females: x}
 
     // get current year
     const dataCurrYear = countryData.filter(item => item.year === this.props.year);
+    //console.log('dataCurrYear', dataCurrYear);
+
     // filter per agegroup
-    const agesPerAgeGroup = ageGroups.map(ageGroup => {
+    const agesPerAgeGroup = ageGroupRanges.map(ageGroupRange => {
       if(dataCurrYear.length > 0){
         return dataCurrYear[0].population
-          .filter(item => item.age >= ageGroup[0] && item.age <= ageGroup[1])
+          .filter(item => item.age >= ageGroupRange[0] && item.age <= ageGroupRange[1])
       }
     });
     //console.log('agesPerAgeGroup', agesPerAgeGroup);
@@ -75,7 +90,27 @@ class SingleCountry extends React.Component{
         }, { total: 0, males: 0, females: 0 })
       }
     });
-    console.log('ageGroupTotals', ageGroupTotals);
+
+    // convert to arrays
+    ageGroupTotals.map((item, i) => {
+      if(item !== undefined){
+        Object.keys(item).map(key =>{
+          ageGroupsData[key].push(item[key]);
+        });
+      }
+    });
+    //console.log(ageGroupsData);
+
+
+
+
+
+
+
+
+
+
+    //console.log('ageGroupTotals', ageGroupTotals);
 
     // [3] male/female numbers curr year
     /*const maleFemaleCurrYear = ageGroupTotals.reduce((acc, curr) => {
@@ -90,18 +125,44 @@ class SingleCountry extends React.Component{
         return acc;
       }
     }, { males: 0, females: 0 }) || [];
-    console.log('maleFemaleCurrYear', maleFemaleCurrYear);
+    //console.log('maleFemaleCurrYear', maleFemaleCurrYear);
 
+
+
+    // [3] average and mean per year for total, male, female
+    const averagesCurrYear = dataCurrYear.map(item => {
+      if(item !== undefined){
+        //console.log(item);
+        const total = item.population.reduce((acc, curr) => {
+          acc.sumTotal += (curr.total * curr.age);
+          acc.allTotal += curr.total;
+          acc.sumMales += (curr.males * curr.age);
+          acc.allMales += curr.males;
+          acc.sumFemales += (curr.females * curr.age);
+          acc.allFemales += curr.females;
+          return acc;
+        }, { sumTotal: 0, allTotal: 0, sumMales: 0, allMales: 0, sumFemales: 0, allFemales: 0 });
+        //console.log(total);
+        const averages = {
+          total: Math.round(total.sumTotal / total.allTotal),
+          males: Math.round(total.sumMales / total.allMales),
+          females: Math.round(total.sumFemales / total.allFemales),
+        }
+        return averages;
+      }
+    });
+    //console.log('averageCurrYear', averagesCurrYear)
 
     return(
       <div>
-        <h2>Mixed data Example</h2>
+        <h2>Single Country</h2>
         {/*<Bar
           data={data}
           options={options}
         />*/}
-        <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />
-        <CountryPerYear totalsPerYear={totalsPerYear} />
+        {/*<CountryPerYear totalsPerYear={totalsPerYear} />*/}
+        <AgeGroups blob={ageGroupsData} />
+        {/*<MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />*/}
       </div>
     );
   }
