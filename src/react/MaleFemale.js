@@ -36,11 +36,10 @@ class CountryPerYear extends React.Component{
           // add year label to tooltip label
           // alter the labels to make numbers readable
           label: function(tooltipItem, data) {
-            console.log(tooltipItem);
-            /*let label = data.datasets[tooltipItem.datasetIndex].label || '';
+            let label = data.labels[tooltipItem.index] || '';
             if (label) { label += ': '; }
-            label += prettyfyPopulationNum(tooltipItem.yLabel);
-            return label;*/
+            label += prettyfyPopulationNum(data.datasets[0].data[tooltipItem.index]);
+            return label;
           }
         }
       },

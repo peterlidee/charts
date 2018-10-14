@@ -156,13 +156,10 @@ class SingleCountry extends React.Component{
     return(
       <div>
         <h2>Single Country</h2>
-        {/*<Bar
-          data={data}
-          options={options}
-        />*/}
-        {/*<CountryPerYear totalsPerYear={totalsPerYear} />*/}
+        <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />
+        <CountryPerYear totalsPerYear={totalsPerYear} />
         <AgeGroups blob={ageGroupsData} />
-        {/*<MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />*/}
+
       </div>
     );
   }
