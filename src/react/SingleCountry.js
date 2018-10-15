@@ -155,13 +155,16 @@ class SingleCountry extends React.Component{
     //console.log('averageCurrYear', averagesCurrYear)
 
     return(
-      <div>
-        <h2>Single Country</h2>
-        <Averages blob={averagesCurrYear} />
-        <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />
+      <div className="singleCountry">
+        <header className="sc__container--full">
+          <h2>Single Country</h2>
+        </header>
         <CountryPerYear totalsPerYear={totalsPerYear} />
-        <AgeGroups blob={ageGroupsData} />
-
+        {/*<div className="sc__container">
+          <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />
+          <AgeGroups blob={ageGroupsData} />
+          <Averages blob={averagesCurrYear} />
+        </div>*/}
       </div>
     );
   }

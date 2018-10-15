@@ -134,7 +134,7 @@ class CountryOverview extends React.Component {
       },
     }
     return (
-      <div>
+      <div className="CountryOverview">
         <h2>Line Example</h2>
         <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
       </div>

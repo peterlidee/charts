@@ -140,7 +140,7 @@ class ChartApp extends React.Component{
     //console.log('state data', this.state.data);
     //const totalPop = this.calculateTotalPopulation(this.state.data);
     return (
-      <div>
+      <div className="container">
         <p>All countries > Country: {this.state.country}, Year: {this.state.year}.</p>
         <Controls
           view={this.state.view}

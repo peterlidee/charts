@@ -11,40 +11,38 @@ class CountryPerYear extends React.Component{
     const data = {
       datasets: [
         {
-          label: 'Male',
-          type:'line',
+          label: 'males',
+          type:'bar',
           data: this.props.totalsPerYear.males,
           fill: false,
-          borderColor: '#00ff00',
           backgroundColor: '#00ff00',
-          //pointBorderColor: '#00ffff',
-          //pointBackgroundColor: '#EC932F',
-          //pointHoverBackgroundColor: '#EC932F',
-          //pointHoverBorderColor: '#EC932F',
-          //yAxisID: 'y-axis-1'
-        },
-        {
-          type: 'line',
-          label: 'Female',
-          data: this.props.totalsPerYear.females,
-          fill: false,
-          backgroundColor: '#ff0000',
-          borderColor: '#ff0000',
-          //pointBorderColor: '#ff0000',
-          //hoverBackgroundColor: '#00ff00',
-          //hoverBorderColor: '#00ff00',
-          //yAxisID: 'y-axis-2'
+          hoverBackgroundColor: '#00ff00',
+          borderWidth: 3,
+          borderColor: '#00ff00',
+          hoverBorderColor: '#00ff00'
         },
         {
           type: 'bar',
+          label: 'females',
+          data: this.props.totalsPerYear.females,
+          fill: false,
+          backgroundColor: '#ff0000',
+          hoverBackgroundColor: '#ff0000',
+          borderWidth: 0,
+          borderWidth: 3,
+          borderColor: '#ff0000',
+          hoverBordercolor: '#ff0000'
+        },
+        {
+          type: 'line',
           label: 'total population',
           data: this.props.totalsPerYear.total,
           fill: false,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,0.4)',
-          hoverBackgroundColor: '#71B37C',
-          hoverBorderColor: '#71B37C',
-          //yAxisID: 'y-axis-3'
+          backgroundColor: '#0000dd',
+          borderWidth: 3,
+          borderColor: '#0000dd',
+          hoverBackgroundColor: '#0000dd',
+          hoverBorderColor: '#0000dd',
         }]
     };
 
@@ -52,9 +50,8 @@ class CountryPerYear extends React.Component{
       responsive: true,
       tooltips: {
         mode: 'index',
-        // make tooltip visible when hover anywhere
         intersect: false,
-        position: 'nearest',
+        position: 'average',
         callbacks: {
           // add year label to tooltip label
           title: function(tooltipItem, data){
@@ -82,16 +79,15 @@ class CountryPerYear extends React.Component{
         }],
         yAxes: [{
           type: 'linear',
-          //id: 'y-axis-1',
           scaleLabel: {
             display: true,
             labelString: 'population'
           },
           ticks: {
+            autoskip: true,
             beginAtZero: true,
             // change the tick text
             callback: function(value, index, values) {
-              //console.log(value, index, values);
               return prettyfyPopulationNum(+value);
             }
           },
@@ -100,7 +96,7 @@ class CountryPerYear extends React.Component{
     };
 
     return(
-      <div>
+      <div className="sc__container--full">
         <h2>CountryPerYear</h2>
         <Bar data={data} options={options} />
       </div>

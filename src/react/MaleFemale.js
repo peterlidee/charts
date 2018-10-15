@@ -43,10 +43,13 @@ class CountryPerYear extends React.Component{
           }
         }
       },
+      legend: {
+        reverse: true
+      }
     }
 
     return(
-      <div>
+      <div className="sc__container--small">
         <h2>MaleFemale</h2>
         <Doughnut data={data} options={options} />
       </div>

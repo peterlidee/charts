@@ -2,6 +2,30 @@
 
 //$red: #ff0000;
 
-div p{
-  color: $red;
+.singleCountry{
+  //background: blue;
+  //display: grid;
+  //grid-template-columns: repeat(12, 1fr);
+  //grid-template-rows: auto 500px 500px;
+
+  header{ }
+  //.sc__container--full{ grid-column: 1/-1; }
+  //.sc__container--half{ grid-column: 1/-1; }
+  //.sc__container--small{ grid-column: span 3; }
+
+
+}
+
+.CountryOverview{
+  width: 100%;
+  height: 1200px;
+}
+
+.sc__container{
+
+}
+
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
 }
