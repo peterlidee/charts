@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pie} from 'react-chartjs-2';
+import {Doughnut} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
 
 class CountryPerYear extends React.Component{
@@ -48,7 +48,7 @@ class CountryPerYear extends React.Component{
     return(
       <div>
         <h2>MaleFemale</h2>
-        <Pie data={data} options={options} />
+        <Doughnut data={data} options={options} />
       </div>
     );
   }

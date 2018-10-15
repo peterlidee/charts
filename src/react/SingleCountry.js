@@ -2,6 +2,7 @@ import React from "react";
 import CountryPerYear from "./CountryPerYear";
 import MaleFemale from "./MaleFemale";
 import AgeGroups from "./AgeGroups";
+import Averages from "./Averages";
 import {Bar} from "react-chartjs-2";
 import {prettyfyPopulationNum} from "../helpers.js";
 
@@ -156,6 +157,7 @@ class SingleCountry extends React.Component{
     return(
       <div>
         <h2>Single Country</h2>
+        <Averages blob={averagesCurrYear} />
         <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />
         <CountryPerYear totalsPerYear={totalsPerYear} />
         <AgeGroups blob={ageGroupsData} />
