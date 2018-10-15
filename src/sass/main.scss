@@ -22,10 +22,28 @@
 }
 
 .sc__container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 
+body{
+  background: #6a4c93;
 }
 
 .container{
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.chart__container{
+  margin-bottom: 4em;
+  background: #fff;
+  padding: 2em;
+  border-radius: .5em;
+}
+
+.chart__title{
+  text-align: center;
+  color: #444;
+  margin-bottom: 2em;
 }

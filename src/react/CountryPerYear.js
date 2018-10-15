@@ -1,48 +1,47 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
+import {colors} from '../colors';
 
 class CountryPerYear extends React.Component{
   constructor(props){
     super(props)
   }
   render(){
-    //console.log(this.props.totalsPerYear)
     const data = {
       datasets: [
         {
           label: 'males',
           type:'bar',
-          data: this.props.totalsPerYear.males,
+          data: this.props.blob.males || [],
           fill: false,
-          backgroundColor: '#00ff00',
-          hoverBackgroundColor: '#00ff00',
+          backgroundColor: colors.males,
+          hoverBackgroundColor: colors.males,
           borderWidth: 3,
-          borderColor: '#00ff00',
-          hoverBorderColor: '#00ff00'
+          borderColor: colors.males,
+          hoverBorderColor: colors.males
         },
         {
           type: 'bar',
           label: 'females',
-          data: this.props.totalsPerYear.females,
+          data: this.props.blob.females || [],
           fill: false,
-          backgroundColor: '#ff0000',
-          hoverBackgroundColor: '#ff0000',
-          borderWidth: 0,
+          backgroundColor: colors.females,
+          hoverBackgroundColor: colors.females,
           borderWidth: 3,
-          borderColor: '#ff0000',
-          hoverBordercolor: '#ff0000'
+          borderColor: colors.females,
+          hoverBorderColor: colors.females
         },
         {
           type: 'line',
           label: 'total population',
-          data: this.props.totalsPerYear.total,
+          data: this.props.blob.total  || [],
           fill: false,
-          backgroundColor: '#0000dd',
+          backgroundColor: colors.total,
           borderWidth: 3,
-          borderColor: '#0000dd',
-          hoverBackgroundColor: '#0000dd',
-          hoverBorderColor: '#0000dd',
+          borderColor: colors.total,
+          hoverBackgroundColor: colors.total,
+          hoverBorderColor: colors.total,
         }]
     };
 
@@ -51,7 +50,7 @@ class CountryPerYear extends React.Component{
       tooltips: {
         mode: 'index',
         intersect: false,
-        position: 'average',
+        position: 'nearest',
         callbacks: {
           // add year label to tooltip label
           title: function(tooltipItem, data){
@@ -59,7 +58,7 @@ class CountryPerYear extends React.Component{
           },
           // alter the labels to make numbers readable
           label: function(tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || '';
+            let label = data.datasets[tooltipItem.datasetIndex].label || [];
             if (label) { label += ': '; }
             label += prettyfyPopulationNum(tooltipItem.yLabel);
             return label;
@@ -68,7 +67,7 @@ class CountryPerYear extends React.Component{
       },
       scales: {
         xAxes: [{
-          labels: this.props.totalsPerYear.year,
+          labels: this.props.blob.year || [],
           scaleLabel: {
             display: true,
             labelString: 'years'
@@ -96,8 +95,8 @@ class CountryPerYear extends React.Component{
     };
 
     return(
-      <div className="sc__container--full">
-        <h2>CountryPerYear</h2>
+      <div className="chart__container">
+        <h2 className="chart__title">{this.props.country}: population per year</h2>
         <Bar data={data} options={options} />
       </div>
     );

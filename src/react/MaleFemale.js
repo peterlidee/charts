@@ -1,6 +1,7 @@
 import React from 'react';
 import {Doughnut} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
+import {colors} from '../colors';
 
 class CountryPerYear extends React.Component{
   constructor(props){

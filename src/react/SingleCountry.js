@@ -56,13 +56,15 @@ class SingleCountry extends React.Component{
     // [2] get for one given year,
     // -> the population per age group
     let ageGroupsData = {
-      labels : ['-18', '18-44', '45-65', '65+'],
+      //labels : ['-18', '18-44', '45-65', '65+'],
+      labels : ['-10','10s','20s','30s','40s','50s','60s','70s','80s','90s'],
       total: [],
       males: [],
       females: []
     };
 
-    const ageGroupRanges = [[0,17], [18,44], [45,65], [66,150]];
+    //const ageGroupRanges = [[0,17], [18,44], [45,65], [66,150]];
+    const ageGroupRanges = [[0,9], [10, 19], [20,29], [30,39], [40,49], [50,59], [60,69], [70,79], [80,89], [90,150]];
     //const ageGroupLabels = ['-18', '18-44', '45-65', '65+'];
 
     // reduce the data to the totals of these ageGroups
@@ -156,15 +158,17 @@ class SingleCountry extends React.Component{
 
     return(
       <div className="singleCountry">
+
         <header className="sc__container--full">
           <h2>Single Country</h2>
         </header>
-        <CountryPerYear totalsPerYear={totalsPerYear} />
-        {/*<div className="sc__container">
-          <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} />
-          <AgeGroups blob={ageGroupsData} />
-          <Averages blob={averagesCurrYear} />
-        </div>*/}
+
+        <CountryPerYear blob={totalsPerYear} country={this.props.country} />
+        <AgeGroups blob={ageGroupsData} country={this.props.country} year={this.props.year} />
+        <div className="sc__container">
+          <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} country={this.props.country} year={this.props.year} />
+          <Averages blob={averagesCurrYear} country={this.props.country} year={this.props.year} />
+        </div>
       </div>
     );
   }

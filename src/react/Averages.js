@@ -1,6 +1,7 @@
 import React from 'react';
 import {HorizontalBar} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
+import {colors} from '../colors';
 
 class Averages extends React.Component{
   constructor(props){
@@ -101,8 +102,8 @@ class Averages extends React.Component{
     }
 
     return (
-      <div className="sc__container--small">
-        <h2>Averages</h2>
+      <div className="chart__container chart__container--half">
+        <h2 className="chart__title">{this.props.country}: average age in {this.props.year}</h2>
         <HorizontalBar data={data} options={options} />
       </div>
     );

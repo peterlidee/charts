@@ -1,50 +1,48 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
+import {colors} from '../colors';
 
 class AgeGroups extends React.Component{
   constructor(props){
     super(props)
   }
   render(){
-    console.log(this.props.blob);
+    //console.log(this.props.blob);
     const data = {
       datasets: [
         {
-          label: 'Male',
+          label: 'males',
           type:'bar',
           data: this.props.blob.males || [],
           fill: false,
-          borderColor: '#00ff00',
-          backgroundColor: '#00ff00',
-          //pointBorderColor: '#00ffff',
-          //pointBackgroundColor: '#EC932F',
-          //pointHoverBackgroundColor: '#EC932F',
-          //pointHoverBorderColor: '#EC932F',
-          //xAxisID: 'x-axis-1'
+          backgroundColor: colors.males,
+          hoverBackgroundColor: colors.males,
+          borderWidth: 3,
+          borderColor: colors.males,
+          hoverBorderColor: colors.males
         },
         {
           type: 'bar',
-          label: 'Female',
+          label: 'females',
           data: this.props.blob.females || [],
           fill: false,
-          backgroundColor: '#ff0000',
-          borderColor: '#ff0000',
-          //pointBorderColor: '#ff0000',
-          //hoverBackgroundColor: '#00ff00',
-          //hoverBorderColor: '#00ff00',
-          //xAxisID: 'x-axis-2'
+          backgroundColor: colors.females,
+          hoverBackgroundColor: colors.females,
+          borderWidth: 3,
+          borderColor: colors.females,
+          hoverBorderColor: colors.females
         },
         {
           type: 'line',
           label: 'total population',
-          data: this.props.blob.total || [],
+          data: this.props.blob.total  || [],
           fill: false,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,0.4)',
-          hoverBackgroundColor: '#71B37C',
-          hoverBorderColor: '#71B37C',
-          //xAxisID: 'x-axis-3'
+          backgroundColor: colors.total,
+          borderWidth: 3,
+          borderColor: colors.total,
+          hoverBackgroundColor: colors.total,
+          hoverBorderColor: colors.total,
         }]
     };
 
@@ -52,7 +50,6 @@ class AgeGroups extends React.Component{
       responsive: true,
       tooltips: {
         mode: 'index',
-        // make tooltip visible when hover anywhere
         intersect: false,
         position: 'nearest',
         callbacks: {
@@ -90,7 +87,6 @@ class AgeGroups extends React.Component{
             beginAtZero: true,
             // change the tick text
             callback: function(value, index, values) {
-              //console.log(value, index, values);
               return prettyfyPopulationNum(+value);
             }
           },
@@ -99,8 +95,8 @@ class AgeGroups extends React.Component{
     };
 
     return(
-      <div>
-        <h2>AgeGroupTotals</h2>
+      <div className="chart__container">
+        <h2 className="chart__title">{this.props.country}: age groups in {this.props.year}</h2>
         <Bar data={data} options={options} />
       </div>
     );

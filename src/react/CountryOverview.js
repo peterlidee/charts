@@ -134,8 +134,8 @@ class CountryOverview extends React.Component {
       },
     }
     return (
-      <div className="CountryOverview">
-        <h2>Line Example</h2>
+      <div className="chart__container">
+        <h2 className="chart__title">Population in Belgium per year</h2>
         <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
       </div>
     )
