@@ -1,8 +1,8 @@
 import React from "react";
-import CountryPerYear from "./CountryPerYear";
-import MaleFemale from "./MaleFemale";
-import AgeGroups from "./AgeGroups";
-import Averages from "./Averages";
+import SingleYears from "./SingleYears";
+import SingleAgeGroups from "./SingleAgeGroups";
+import SingleMaleFemale from "./SingleMaleFemale";
+import SingleAverages from "./SingleAverages";
 import {Bar} from "react-chartjs-2";
 import {prettyfyPopulationNum} from "../helpers.js";
 
@@ -159,15 +159,11 @@ class SingleCountries extends React.Component{
     return(
       <div className="singleCountry">
 
-        <header className="sc__container--full">
-          <h2>Single Country</h2>
-        </header>
-
-        <CountryPerYear blob={totalsPerYear} country={this.props.country} />
-        <AgeGroups blob={ageGroupsData} country={this.props.country} year={this.props.year} />
+        <SingleYears blob={totalsPerYear} country={this.props.country} />
+        <SingleAgeGroups blob={ageGroupsData} country={this.props.country} year={this.props.year} />
         <div className="half-charts__container">
-          <MaleFemale blob={maleFemaleCurrYear} country={this.props.country} year={this.props.year} />
-          <Averages blob={averagesCurrYear} country={this.props.country} year={this.props.year} />
+          <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.country} year={this.props.year} />
+          <SingleAverages blob={averagesCurrYear} country={this.props.country} year={this.props.year} />
         </div>
       </div>
     );

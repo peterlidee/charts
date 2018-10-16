@@ -3,7 +3,7 @@ import {Doughnut} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
 import {colors} from '../colors';
 
-class CountryPerYear extends React.Component{
+class SingleMaleFemale extends React.Component{
   constructor(props){
     super(props)
   }
@@ -54,4 +54,4 @@ class CountryPerYear extends React.Component{
     );
   }
 }
- export default CountryPerYear;
+ export default SingleMaleFemale;

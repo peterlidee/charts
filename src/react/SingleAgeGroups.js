@@ -3,11 +3,12 @@ import {Bar} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
 import {colors} from '../colors';
 
-class CountryPerYear extends React.Component{
+class SingleAgeGroups extends React.Component{
   constructor(props){
     super(props)
   }
   render(){
+    //console.log(this.props.blob);
     const data = {
       datasets: [
         {
@@ -54,11 +55,11 @@ class CountryPerYear extends React.Component{
         callbacks: {
           // add year label to tooltip label
           title: function(tooltipItem, data){
-            return 'Year: ' + tooltipItem[0].xLabel;
+            return 'Age group: ' + tooltipItem[0].xLabel;
           },
           // alter the labels to make numbers readable
           label: function(tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label || [];
+            let label = data.datasets[tooltipItem.datasetIndex].label || '';
             if (label) { label += ': '; }
             label += prettyfyPopulationNum(tooltipItem.yLabel);
             return label;
@@ -67,10 +68,10 @@ class CountryPerYear extends React.Component{
       },
       scales: {
         xAxes: [{
-          labels: this.props.blob.year || [],
+          labels: this.props.blob.labels,
           scaleLabel: {
             display: true,
-            labelString: 'years'
+            labelString: 'age groups'
           },
           gridLines: {
             display: false
@@ -83,7 +84,6 @@ class CountryPerYear extends React.Component{
             labelString: 'population'
           },
           ticks: {
-            autoskip: true,
             beginAtZero: true,
             // change the tick text
             callback: function(value, index, values) {
@@ -96,10 +96,10 @@ class CountryPerYear extends React.Component{
 
     return(
       <div className="chart__container">
-        <h2 className="chart__title">{this.props.country}: population per year</h2>
+        <h2 className="chart__title">{this.props.country}: age groups in {this.props.year}</h2>
         <Bar data={data} options={options} />
       </div>
     );
   }
 }
- export default CountryPerYear;
+export default SingleAgeGroups;

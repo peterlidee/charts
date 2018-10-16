@@ -3,7 +3,7 @@ import {HorizontalBar} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js';
 import {colors} from '../colors';
 
-class Averages extends React.Component{
+class SingleAverages extends React.Component{
   constructor(props){
     super(props);
   }
@@ -82,4 +82,4 @@ class Averages extends React.Component{
   }
 }
 
-export default Averages;
+export default SingleAverages;
