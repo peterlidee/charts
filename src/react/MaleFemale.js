@@ -9,25 +9,22 @@ class CountryPerYear extends React.Component{
   }
   render(){
     //console.log(this.props.maleFemaleCurrYear);
-    const maleFemaleData = this.props.maleFemaleCurrYear;
+    const maleFemaleData = this.props.blob;
     const maleFemaleKeys = Object.keys(maleFemaleData);
 
     const data = {
     	labels: maleFemaleKeys,
     	datasets: [{
     		data: maleFemaleKeys.map(key => maleFemaleData[key]),
-    		backgroundColor: [
-        '#36A2EB',
-        '#FF6384',
-
-    		],
-    		hoverBackgroundColor: [
-    		'#36A2EB',
-        '#FF6384',
-    		]
+    		backgroundColor: [colors.males, colors.females],
+    		hoverBackgroundColor: [colors.males, colors.females],
+        borderWidth: 3,
+        borderColor: '#fff',
+        hoverBorderColor: '#fff',
     	}]
     };
     const options = {
+      responsive: true,
       tooltips: {
         mode: 'index',
         // make tooltip visible when hover anywhere
@@ -50,8 +47,8 @@ class CountryPerYear extends React.Component{
     }
 
     return(
-      <div className="sc__container--small">
-        <h2>MaleFemale</h2>
+      <div className="chart__container chart__container--half">
+        <h2 className="chart__title">{this.props.country}: male / female in {this.props.year}</h2>
         <Doughnut data={data} options={options} />
       </div>
     );

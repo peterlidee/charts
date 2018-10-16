@@ -165,8 +165,8 @@ class SingleCountry extends React.Component{
 
         <CountryPerYear blob={totalsPerYear} country={this.props.country} />
         <AgeGroups blob={ageGroupsData} country={this.props.country} year={this.props.year} />
-        <div className="sc__container">
-          <MaleFemale maleFemaleCurrYear={maleFemaleCurrYear} country={this.props.country} year={this.props.year} />
+        <div className="half-charts__container">
+          <MaleFemale blob={maleFemaleCurrYear} country={this.props.country} year={this.props.year} />
           <Averages blob={averagesCurrYear} country={this.props.country} year={this.props.year} />
         </div>
       </div>

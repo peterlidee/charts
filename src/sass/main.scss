@@ -2,32 +2,13 @@
 
 //$red: #ff0000;
 
-.singleCountry{
-  //background: blue;
-  //display: grid;
-  //grid-template-columns: repeat(12, 1fr);
-  //grid-template-rows: auto 500px 500px;
-
-  header{ }
-  //.sc__container--full{ grid-column: 1/-1; }
-  //.sc__container--half{ grid-column: 1/-1; }
-  //.sc__container--small{ grid-column: span 3; }
-
-
-}
-
-.CountryOverview{
-  width: 100%;
-  height: 1200px;
-}
-
-.sc__container{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+*{
+  box-sizing: border-box;
 }
 
 body{
   background: #6a4c93;
+  padding: 1em;
 }
 
 .container{
@@ -36,9 +17,9 @@ body{
 }
 
 .chart__container{
-  margin-bottom: 4em;
+  margin-bottom: 3em;
   background: #fff;
-  padding: 2em;
+  padding: 1em;
   border-radius: .5em;
 }
 
@@ -46,4 +27,21 @@ body{
   text-align: center;
   color: #444;
   margin-bottom: 2em;
+}
+
+@media screen and (min-width: 600px){
+  .chart__container{
+    margin-bottom: 4em;
+    padding: 2em;
+  }
+}
+
+@media screen and (min-width: 900px){
+  .chart__container--half{
+    // flex or grid don't work :/
+    width: calc(50% - 2em);
+    float: left;
+    margin-right: 4em;
+    &:last-child{ margin-right: 0; }
+  }
 }
