@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Controls from "./Controls";
+import Loading from "./Loading";
 import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
 
@@ -28,6 +29,9 @@ class ChartApp extends React.Component{
       error: false
     }
     this.countryOverviewRef = React.createRef();
+
+    this.handleFetch = this.handleFetch.bind(this);
+
     this.renderYearsArray = this.renderYearsArray.bind(this);
     this.calculateTotalPopulation = this.calculateTotalPopulation.bind(this);
     this.handleCountrySelect = this.handleCountrySelect.bind(this);
@@ -106,8 +110,8 @@ class ChartApp extends React.Component{
     }
   }
 
-  componentDidMount() {
-    //console.log('comp did mount ran');
+  handleFetch(){
+
     this.setState({ isLoading: true });
 
     // 2 cases:
@@ -117,6 +121,7 @@ class ChartApp extends React.Component{
     // view single
     // one country -> 20 years
     // http://api.population.io/1.0/population/2018/Belgium/
+
 
     const fetchArray = (this.state.view === 'all') ? this.countries : this.years;
     const fetchParam = (this.state.view === 'all') ? `${this.state.year}-01-01` : this.state.country;
@@ -146,11 +151,65 @@ class ChartApp extends React.Component{
     })
     .catch(error => this.setState({ error: error, isLoading: false }));
 
+
+  }
+
+  componentDidMount() {
+    //console.log('comp did mount ran');
+    this.setState({ isLoading: true });
+
+    // 2 cases:
+    // view all
+    // all the countries -> the total population -> 2018
+    // http://api.population.io/1.0/population/Belgium/2018-01-01/
+    // view single
+    // one country -> 20 years
+    // http://api.population.io/1.0/population/2018/Belgium/
+
+    /*const fetchArray = (this.state.view === 'all') ? this.countries : this.years;
+    const fetchParam = (this.state.view === 'all') ? `${this.state.year}-01-01` : this.state.country;
+    const fetch = this.doFetch(fetchArray, fetchParam);
+    //console.log(fetchArray, fetchParam, fetch);
+
+    Promise.all(fetch)
+      .then( values => {
+        const combinedData = values.map((value, i) => {
+          //console.log(value);
+
+          if(!value){ // if there was no response, return undefined as data
+            //console.log(value)
+            return (this.state.view === 'all') ?
+              { 'countryName': fetchArray[i], 'population': undefined } :
+              { 'year': fetchArray[i], 'population': undefined };
+          }else{ // else return the data
+            return (this.state.view === 'all') ?
+              { 'countryName': fetchArray[i], 'population': value.total_population.population } :
+              { 'year': fetchArray[i], 'population': value };
+          }
+        });
+      //console.log(combinedData)
+      this.setState({
+        data: combinedData
+      });
+    })
+    .catch(error => this.setState({ error: error, isLoading: false }));*/
+
+    this.handleFetch();
+
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    //console.log('componentDidUpdate', prevProps, prevState);
+    // Typical usage (don't forget to compare props):
+    if (this.state.country !== prevState.country || this.state.view !== prevState.view) {
+      this.handleFetch();
+    }
   }
 
   render(){
-    //console.log('state data', this.state.data);
-    //const totalPop = this.calculateTotalPopulation(this.state.data);
+
+    console.log('state data', this.state.data);
+
     return (
       <div className="container">
         <p>All countries > Country: {this.state.country}, Year: {this.state.year}.</p>
@@ -160,10 +219,13 @@ class ChartApp extends React.Component{
           year={this.state.year} years={this.years}
           handleControles={this.handleControles} />
 
-        {this.state.view === 'all' &&
+        {this.state.isLoading && <Loading />}
+
+        {/*this.state.view === 'all' &&
           <AllCountries data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />}
         {this.state.view === 'single' &&
-          <SingleCountries data={this.state.data} year={this.state.year} country={this.state.country} />}
+          <SingleCountries data={this.state.data} year={this.state.year} country={this.state.country} />*/}
+
       </div>
     );
   };

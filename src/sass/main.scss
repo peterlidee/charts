@@ -16,6 +16,27 @@ body{
   margin: 0 auto;
 }
 
+// loader
+.loader{ background: black; height: 40px; width: 80px; }
+.loader__item{
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin: 0 2px;
+  float: left;
+  animation: bounce .9s ease-in-out infinite;
+  &:nth-child(2){ animation-delay: .3s; }
+  &:nth-child(3){ animation-delay: .6s; }
+}
+@keyframes bounce{
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
 .chart__container{
   margin-bottom: 3em;
   background: #fff;

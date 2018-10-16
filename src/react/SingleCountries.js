@@ -15,7 +15,8 @@ class SingleCountries extends React.Component{
     const countryData = this.props.data;
     //console.log(countryData)
 
-    // gather relevant data arrays [1],[2], [3]
+    // gather relevant data arrays [1],[2],[3],[4]
+
     // [1] get total pop in curr country for every year
     let totalsPerYear = {
       year : [],
@@ -47,10 +48,6 @@ class SingleCountries extends React.Component{
       });
     });
     //console.log('totalsPerYear', totalsPerYear);
-
-
-
-
 
 
     // [2] get for one given year,
@@ -106,21 +103,7 @@ class SingleCountries extends React.Component{
 
 
 
-
-
-
-
-
-
-
-    //console.log('ageGroupTotals', ageGroupTotals);
-
     // [3] male/female numbers curr year
-    /*const maleFemaleCurrYear = ageGroupTotals.reduce((acc, curr) => {
-      acc.males += curr.males;
-      acc.females += curr.females;
-      return acc;
-    }, { males: 0, females: 0 });*/
     const maleFemaleCurrYear = ageGroupTotals.reduce((acc, curr) => {
       if(curr !== undefined){
         acc.males += curr.males;
@@ -154,8 +137,9 @@ class SingleCountries extends React.Component{
         return averages;
       }
     });
-    console.log('averageCurrYear', averagesCurrYear);
+    //console.log('averageCurrYear', averagesCurrYear);
 
+    // convert to arrays
     let singleAveragesData = {};
 
     averagesCurrYear.map(item => {
@@ -165,7 +149,7 @@ class SingleCountries extends React.Component{
         singleAveragesData.data = keys.map(key => item[key]);
       }
     });
-    console.log('singleAveragesData', singleAveragesData);
+    //console.log('singleAveragesData', singleAveragesData);
 
 
 

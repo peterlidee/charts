@@ -1,6 +1,7 @@
 import React from 'react';
 import {HorizontalBar} from 'react-chartjs-2';
-import {prettyfyPopulationNum} from '../helpers.js'
+import {prettyfyPopulationNum} from '../helpers.js';
+import {colors} from '../colors';
 
 class AllCountries extends React.Component {
   constructor(props){
@@ -32,14 +33,11 @@ class AllCountries extends React.Component {
         }
       }
   	});
+
   }
 
   render() {
 
-    //console.log(Chart);
-
-
-    //console.log(this.props.data);
     const rawData = this.props.data.map(item => {
       if(item.population === undefined){
         return { population: 0, countryName: item.countryName }
@@ -53,34 +51,16 @@ class AllCountries extends React.Component {
       labels: rawData.map(item => item.countryName),
       datasets: [
         {
-          label: 'Population',
-          fill: false,
-          lineTension: 0.1,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: 'rgba(75,192,192,1)',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: rawData.map(item => item.population)
+          label: 'population',
+          data: rawData.map(item => item.population),
+          backgroundColor: colors.total,
+          hoverBackgroundColor: colors.total,
+          borderWidth: 0,
         }
       ]
     };
 
     const options = {
-      /*title: {
-        display: 'true',
-        text: 'just a test'
-      },*/
       scales: {
         xAxes: [{
           scaleLabel: {
@@ -88,13 +68,7 @@ class AllCountries extends React.Component {
             labelString: 'population'
           },
           ticks: {
-            //minRotation: 90,
-            //display: false,
-            //autoskip: false,
-            //padding: 50
-            // change the tick text
             callback: function(value, index, values) {
-              //console.log(value, index, values);
               return prettyfyPopulationNum(+value);
             }
           },
@@ -107,22 +81,15 @@ class AllCountries extends React.Component {
         }]
       },
       tooltips: {
-        // make tooltip visible when hover anywhere
-        intersect: false,
         callbacks: {
           // alter the labels to make numbers readable
           label: function(tooltipItem, data) {
-            //console.log(tooltipItem, data);
-
               let label = data.datasets[tooltipItem.datasetIndex].label || '';
               if (label) { label += ': '; }
               label += prettyfyPopulationNum(tooltipItem.xLabel);
               return label;
           }
         }
-      },
-      legend: {
-        display: true
       },
       onClick: function(e, arr) {
         // this handles clicks on bars, see also componentDidMount
