@@ -16,26 +16,40 @@ body{
   margin: 0 auto;
 }
 
-// loader
-.loader{ background: black; height: 40px; width: 80px; }
+
+// http://tobiasahlin.com/spinkit/
+
+.loader {
+  //margin: 100px auto 0;
+
+  width: 100px;
+  text-align: center;
+}
+
 .loader__item{
   width: 18px;
   height: 18px;
-  border-radius: 50%;
-  margin: 0 2px;
-  float: left;
-  animation: bounce .9s ease-in-out infinite;
-  &:nth-child(2){ animation-delay: .3s; }
-  &:nth-child(3){ animation-delay: .6s; }
+  background-color: #333;
+
+  border-radius: 100%;
+  display: inline-block;
+  animation: sk-bouncedelay 1.2s infinite ease-in-out both;
 }
-@keyframes bounce{
-  0%, 100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(10px);
+
+.loader__item:nth-child(1){ animation-delay: -0.45s; }
+.loader__item:nth-child(2){ animation-delay: -0.3s; }
+.loader__item:nth-child(3){ animation-delay: -0.15s; }
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0);
+  } 40% {
+    transform: scale(1.0);
   }
 }
+
+
+
 
 .chart__container{
   margin-bottom: 3em;
