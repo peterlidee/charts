@@ -132,7 +132,7 @@ class SingleCountries extends React.Component{
 
 
 
-    // [3] average and mean per year for total, male, female
+    // [4] average and mean per year for total, male, female
     const averagesCurrYear = dataCurrYear.map(item => {
       if(item !== undefined){
         //console.log(item);
@@ -154,7 +154,20 @@ class SingleCountries extends React.Component{
         return averages;
       }
     });
-    //console.log('averageCurrYear', averagesCurrYear)
+    console.log('averageCurrYear', averagesCurrYear);
+
+    let singleAveragesData = {};
+
+    averagesCurrYear.map(item => {
+      if(item !== undefined){
+        const keys = [...Object.keys(item)];
+        singleAveragesData.labels = keys;
+        singleAveragesData.data = keys.map(key => item[key]);
+      }
+    });
+    console.log('singleAveragesData', singleAveragesData);
+
+
 
     return(
       <div className="singleCountry">
@@ -163,7 +176,7 @@ class SingleCountries extends React.Component{
         <SingleAgeGroups blob={ageGroupsData} country={this.props.country} year={this.props.year} />
         <div className="half-charts__container">
           <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.country} year={this.props.year} />
-          <SingleAverages blob={averagesCurrYear} country={this.props.country} year={this.props.year} />
+          <SingleAverages blob={singleAveragesData} country={this.props.country} year={this.props.year} />
         </div>
       </div>
     );

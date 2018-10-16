@@ -46,15 +46,11 @@ class SingleYears extends React.Component{
     };
 
     const options = {
-      responsive: true,
       tooltips: {
-        mode: 'index',
-        intersect: false,
-        position: 'nearest',
         callbacks: {
           // add year label to tooltip label
           title: function(tooltipItem, data){
-            return 'Year: ' + tooltipItem[0].xLabel;
+            return 'year: ' + tooltipItem[0].xLabel;
           },
           // alter the labels to make numbers readable
           label: function(tooltipItem, data) {

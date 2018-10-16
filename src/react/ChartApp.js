@@ -4,6 +4,18 @@ import Controls from "./Controls";
 import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
 
+
+// set some default values for all charts
+// no further default possible, to different :/
+
+import { defaults } from 'react-chartjs-2';
+//console.log(defaults.global.tooltips);
+defaults.global.tooltips.mode = 'index';
+defaults.global.tooltips.intersect = false;
+defaults.global.tooltips.position = 'nearest';
+defaults.global.tooltips.xPadding = 10;
+defaults.global.tooltips.yPadding = 10;
+
 class ChartApp extends React.Component{
   constructor(props){
     super(props);

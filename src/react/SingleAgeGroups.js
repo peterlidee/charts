@@ -15,7 +15,6 @@ class SingleAgeGroups extends React.Component{
           label: 'males',
           type:'bar',
           data: this.props.blob.males || [],
-          fill: false,
           backgroundColor: colors.males,
           hoverBackgroundColor: colors.males,
           borderWidth: 3,
@@ -26,7 +25,6 @@ class SingleAgeGroups extends React.Component{
           type: 'bar',
           label: 'females',
           data: this.props.blob.females || [],
-          fill: false,
           backgroundColor: colors.females,
           hoverBackgroundColor: colors.females,
           borderWidth: 3,
@@ -47,11 +45,7 @@ class SingleAgeGroups extends React.Component{
     };
 
     const options = {
-      responsive: true,
       tooltips: {
-        mode: 'index',
-        intersect: false,
-        position: 'nearest',
         callbacks: {
           // add year label to tooltip label
           title: function(tooltipItem, data){

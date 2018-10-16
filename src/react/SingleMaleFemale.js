@@ -23,13 +23,9 @@ class SingleMaleFemale extends React.Component{
         hoverBorderColor: '#fff',
     	}]
     };
+
     const options = {
-      responsive: true,
       tooltips: {
-        mode: 'index',
-        // make tooltip visible when hover anywhere
-        intersect: false,
-        position: 'nearest',
         callbacks: {
           // add year label to tooltip label
           // alter the labels to make numbers readable

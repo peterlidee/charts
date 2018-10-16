@@ -9,33 +9,19 @@ class SingleAverages extends React.Component{
   }
   render(){
 
-    const blob = this.props.blob;
-    let labelsArr = [];
-    let dataArr = [];
-    blob.map(item => {
-      if(item !== undefined){
-        labelsArr = [...Object.keys(item)];
-        dataArr = labelsArr.map(key => item[key]);
-      }
-    });
-    //console.log('labels', labelsArr, dataArr);
-
     const data = {
-      labels: labelsArr,
+      labels: this.props.blob.labels || [],
       datasets: [
         {
-          label: 'Population',
-          fill: false,
           backgroundColor: [colors.total, colors.males, colors.females],
           hoverBackgroundColor: [colors.total, colors.males, colors.females],
           borderWidth: 0,
-          data: dataArr
+          data: this.props.blob.data || []
         }
       ]
     };
 
     const options = {
-      responsive: true,
       scales: {
         xAxes: [{
           scaleLabel: {
@@ -57,16 +43,12 @@ class SingleAverages extends React.Component{
         }]
       },
       tooltips: {
-        // make tooltip visible when hover anywhere
-        intersect: false,
         callbacks: {
           // alter the labels to make numbers readable
           label: function(tooltipItem, data) {
               return 'age: ' + tooltipItem.xLabel;
           }
         },
-        xPadding: 8,
-        yPadding: 8
       },
       legend: {
         display: false
