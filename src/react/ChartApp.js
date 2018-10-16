@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Controls from "./Controls";
-import CountryOverview from "./CountryOverview";
-import SingleCountry from "./SingleCountry";
+import AllCountries from "./AllCountries";
+import SingleCountries from "./SingleCountries";
 
 class ChartApp extends React.Component{
   constructor(props){
@@ -147,12 +147,11 @@ class ChartApp extends React.Component{
           country={this.state.country} countries={this.countries}
           year={this.state.year} years={this.years}
           handleControles={this.handleControles} />
+
         {this.state.view === 'all' &&
-          <CountryOverview data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />
-        }
+          <AllCountries data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />}
         {this.state.view === 'single' &&
-          <SingleCountry data={this.state.data} year={this.state.year} country={this.state.country} />
-        }
+          <SingleCountries data={this.state.data} year={this.state.year} country={this.state.country} />}
       </div>
     );
   };

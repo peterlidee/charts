@@ -6,7 +6,7 @@ import Averages from "./Averages";
 import {Bar} from "react-chartjs-2";
 import {prettyfyPopulationNum} from "../helpers.js";
 
-class SingleCountry extends React.Component{
+class SingleCountries extends React.Component{
   constructor(props){
     super(props)
   }
@@ -174,4 +174,4 @@ class SingleCountry extends React.Component{
   }
 }
 
-export default SingleCountry;
+export default SingleCountries;

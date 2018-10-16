@@ -2,7 +2,7 @@ import React from 'react';
 import {HorizontalBar} from 'react-chartjs-2';
 import {prettyfyPopulationNum} from '../helpers.js'
 
-class CountryOverview extends React.Component {
+class AllCountries extends React.Component {
   constructor(props){
     super(props);
     //this.test = this.test.bind(this);
@@ -142,4 +142,4 @@ class CountryOverview extends React.Component {
   }
 }
 
-export default CountryOverview;
+export default AllCountries;
