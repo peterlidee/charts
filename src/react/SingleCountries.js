@@ -10,10 +10,13 @@ class SingleCountries extends React.Component{
   constructor(props){
     super(props)
   }
+
   render(){
 
     const countryData = this.props.data;
-    //console.log(countryData)
+    console.log('countryData', countryData)
+
+
 
     // gather relevant data arrays [1],[2],[3],[4]
 
@@ -68,8 +71,7 @@ class SingleCountries extends React.Component{
     // per agegroup -> {total: x, males: x, females: x}
 
     // get current year
-    const dataCurrYear = countryData.filter(item => item.year === this.props.year);
-    //console.log('dataCurrYear', dataCurrYear);
+    const dataCurrYear = countryData.filter(item => +item.year === +this.props.year);
 
     // filter per agegroup
     const agesPerAgeGroup = ageGroupRanges.map(ageGroupRange => {
@@ -150,8 +152,6 @@ class SingleCountries extends React.Component{
       }
     });
     //console.log('singleAveragesData', singleAveragesData);
-
-
 
     return(
       <div className="singleCountry">
