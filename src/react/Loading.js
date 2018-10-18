@@ -7,7 +7,6 @@ const Loading = ()=> {
       <div className="loader__item" style={{background: colors.yellow}} />
       <div className="loader__item" style={{background: colors.yellow}} />
       <div className="loader__item" style={{background: colors.yellow}} />
-      <div className="loader__item" style={{background: colors.yellow}} />
     </div>
   );
 }

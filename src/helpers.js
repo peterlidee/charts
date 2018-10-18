@@ -14,3 +14,18 @@ export function prettyfyPopulationNum(num){
   }
   return newArray.reverse().join('');
 }
+
+
+// make an array for all the years between 2018 - (2018-num)
+export function renderYearsArray(num){
+  let years = [];
+  for(let i = 0; i < num; i++){
+    years.push(2018 - i);
+  }
+  return years;
+}
+
+// extract year from date 2018-01-01 -> 2018
+export function getYearFromDate(date){
+  return +date.split('-')[0];
+}

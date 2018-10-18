@@ -14,9 +14,7 @@ class SingleCountries extends React.Component{
   render(){
 
     const countryData = this.props.data;
-    console.log('countryData', countryData)
-
-
+    //console.log('countryData', countryData)
 
     // gather relevant data arrays [1],[2],[3],[4]
 

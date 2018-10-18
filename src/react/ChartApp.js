@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Controls from "./Controls";
-import Loading from "./Loading";
 import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
+import {renderYearsArray, getYearFromDate} from '../helpers.js';
 
 
 // set some default values for all charts
 // no further default possible, to different :/
-
 import { defaults } from 'react-chartjs-2';
-//console.log(defaults.global.tooltips);
 defaults.global.tooltips.mode = 'index';
 defaults.global.tooltips.intersect = false;
 defaults.global.tooltips.position = 'nearest';
@@ -31,9 +29,6 @@ class ChartApp extends React.Component{
     this.countryOverviewRef = React.createRef();
 
     this.handleFetch = this.handleFetch.bind(this);
-
-    this.renderYearsArray = this.renderYearsArray.bind(this);
-    this.calculateTotalPopulation = this.calculateTotalPopulation.bind(this);
     this.handleCountrySelect = this.handleCountrySelect.bind(this);
     this.handleControles = this.handleControles.bind(this);
 
@@ -43,26 +38,10 @@ class ChartApp extends React.Component{
       'Belgium', 'France', 'Luxembourg', 'Germany', 'The Netherlands', 'Spain', 'Italy', 'Greece',
       'Portugal', 'Austria', 'Denmark', 'Norway', 'Sweden', 'Finland', 'Ireland', 'Poland', 'Estonia',
       'Latvia', 'Lithuania', 'Slovak Republic', 'United Kingdom', 'Croatia', 'Serbia',
-      'Bosnia and Herzegovina', 'Bulgaria', 'Czech Republic', 'Hungary', 'Slovenia', 'Switzerland2'
+      'Bosnia and Herzegovina', 'Bulgaria', 'Czech Republic', 'Hungary', 'Slovenia', 'Switzerland'
     ];
-    this.years4Single = this.renderYearsArray(20);
-    this.years4All = this.renderYearsArray(5);
-  }
-
-  // make an array for all the years between 2018 - 20 years
-  renderYearsArray(num){
-    let years = [];
-    for(let i = 0; i < num; i++){
-      years.push(2018 - i);
-    }
-    // remove this
-    //years.push(1860)
-    return years;
-  }
-
-  // calculate the total population of a given country
-  calculateTotalPopulation(arr){
-    return arr.reduce((acc, curr) => acc + curr.total, 0);
+    this.years4Single = renderYearsArray(20);
+    this.years4All = renderYearsArray(5);
   }
 
   // this does the fetch to the api
@@ -87,7 +66,6 @@ class ChartApp extends React.Component{
 
     // while loading data
     this.setState({ isLoading: true });
-    console.log('isLoading', this.state.data);
 
     // 2 cases:
     // view all
@@ -106,26 +84,25 @@ class ChartApp extends React.Component{
     Promise.all(fetch)
       .then( values => {
         const combinedData = values.map((value, i) => {
+
           //console.log(value);
 
           if(!value){ // if there was no response, return undefined as data
             //console.log(value)
             return (this.state.view === 'all') ?
-              { 'countryName': fetchArray[i], 'population': undefined, 'datatype' : 'all' } :
+              { 'countryName': fetchArray[i], 'population': undefined, 'datatype' : 'all', 'year': this.state.year } :
               { 'year': fetchArray[i], 'population': undefined, 'datatype' : 'single' };
           }else{ // else return the data
             return (this.state.view === 'all') ?
-              { 'countryName': fetchArray[i], 'population': value.total_population.population, 'datatype' : 'all' } :
+              { 'countryName': fetchArray[i], 'population': value.total_population.population, 'datatype' : 'all', 'year': getYearFromDate(value.total_population.date) } :
               { 'year': fetchArray[i], 'population': value, 'datatype' : 'single' };
           }
         });
-      //console.log(combinedData)
       this.setState({
         data: combinedData,
         // data was loaded
         isLoading: false
       });
-      console.log('LoadingDone', this.state.data);
     })
     .catch(error => this.setState({ error: error, isLoading: false }));
 
@@ -143,10 +120,8 @@ class ChartApp extends React.Component{
     if(barLabel){ this.setState({ country: barLabel, view: 'single', })};
 
   }
+
   handleControles(e){
-    //console.log(e.target);
-
-
 
     if(e.target.id === 'all' || e.target.id === 'clear'){
 
@@ -169,6 +144,7 @@ class ChartApp extends React.Component{
       }
 
     }else if(e.target.id === 'year'){
+      // don't allow values below the lowest possible year
       this.setState({
         year: e.target.value
       });
@@ -180,7 +156,7 @@ class ChartApp extends React.Component{
     }
   }
 
-  checkData(data){
+  checkDataType(data){
     if(data.length === 0){
       return 'no data';
     }else if(data[0].datatype === 'all'){
@@ -205,12 +181,22 @@ class ChartApp extends React.Component{
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.country !== prevState.country || this.state.view !== prevState.view) {
+
+    // do a new api fetch when
+    // there was a change in the view
+    // the view is all and the year changes
+    // when the country changes
+    if (
+      this.state.view !== prevState.view ||
+      ( this.state.view === prevState.view && this.state.view === 'all' && this.state.year !== prevState.year ) ||
+      this.state.country !== prevState.country) {
       this.handleFetch();
     }
   }
 
   render(){
+
+    //console.log(this.state.data);
 
     // if isLoading = true it means that there's a problem
     // the new data hasn't arrived yet but the new components are getting mounted
@@ -218,23 +204,31 @@ class ChartApp extends React.Component{
     // we solve this by checking the data
     // if the datastructure doesn't correspond to the state.view we keep showing the old component while the data loads
     // also expect no data yet (first load)
-    const dataType = this.checkData(this.state.data);
+    const dataType = this.checkDataType(this.state.data);
+
 
     return (
       <div className="container">
+
         <p>All countries > Country: {this.state.country}, Year: {this.state.year}. isLoading: {this.state.isLoading ? 'yes' : 'no'}</p>
+
         <Controls
           view={this.state.view}
-          country={this.state.country} countries={this.countries}
+          country={this.state.country}
+          countries={this.countries}
           year={this.state.year}
           years4Single={this.years4Single}
           years4All={this.years4All}
-          handleControles={this.handleControles} />
-
-        {this.state.isLoading && <Loading />}
+          handleControles={this.handleControles}
+          isLoading={this.state.isLoading} />
 
         {dataType === 'all' &&
-          <AllCountries data={this.state.data} handleCountrySelect={this.handleCountrySelect} ref={this.countryOverviewRef} />}
+          <AllCountries
+            data={this.state.data}
+            handleCountrySelect={this.handleCountrySelect}
+            ref={this.countryOverviewRef}
+            year={this.state.year} />}
+
         {dataType === 'single' &&
           <SingleCountries
             data={this.state.data}

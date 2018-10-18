@@ -100,9 +100,13 @@ class AllCountries extends React.Component {
         }
       },
     }
+
+    //get the year from data, not from state!!
+    const currYear = rawData[0].year;
+
     return (
       <div className="chart__container">
-        <h2 className="chart__title">Population in Belgium per year</h2>
+        <h2 className="chart__title">European populations in {currYear}</h2>
         <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
       </div>
     )
