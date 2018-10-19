@@ -9,12 +9,12 @@
 
 body{
   background: #6a4c93;
-  padding: 1em;
 }
 
 .container{
   max-width: 1200px;
   margin: 0 auto;
+  padding: 1em;
 }
 
 .chart__container{
@@ -27,7 +27,7 @@ body{
 .chart__title{
   text-align: center;
   color: #444;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 @media screen and (min-width: 600px){
@@ -45,38 +45,40 @@ body{
     margin-right: 4em;
     &:last-child{ margin-right: 0; }
   }
+  .chart__title{
+    margin-bottom: 2em;
+  }
 }
 
+body{ padding-top: 6em; }
+
 .controls{
-  //display: grid;
-  //grid-template-columns: repeat(3, auto);
-  //grid-gap: 2em;
-  //justify-content: flex-start;
-
-  font-family: Arial, sans-serif; color: #444; font-size: 1em;
-
+  font-family: Arial, sans-serif; color: #222; font-size: 1em;
+  background: $purple;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  padding: 1em 1em 0 1em;
 }
 
 .controle{
   display: inline-block;
 }
-
-.controle--1{
-  //text-align: right;
-}
-.controle--2{
-  //background: blue;
-}
-
 .select__label{
+  display: inline-block;
   background: #444;
   color: #fff;
-  padding: .7em 0 .7em 1em;
+  padding: 0 0 0 1em;
   border-radius: .5em;
+  margin: 0 1.5em 1em 0;
+  .controle--3 & { margin-right: 0; }
 }
 
-
-
+@media screen and (min-width: 500px){
+  .controls{
+    text-align: center;
+  }
+}
 
 .select__wrapper{
   display: inline-block;
@@ -100,25 +102,45 @@ body{
 }
 
 .select__style{
-  //border: 1px solid $yellow;
-
-  padding: .5em;
-  font-family: Arial, sans-serif;
-  font-size: 1em;
-  background: rgba(0,0,0,.25);
+  background: none;
   border: none;
-  color: #000;
-  //background-image: none;
-  //margin-left: .5em;
-
   -moz-appearance:none; /* Firefox */
   -webkit-appearance:none; /* Safari and Chrome */
+
+  padding: .5em;
+  font-size: 1em;
+  color: #222;
   appearance:none;
   padding-right: 2em;
-
   position: relative;
   z-index: 100;
+}
 
+.controle__button{
+  display: inline-block;
+  border: none;
+  background: #444;
+  padding: .5em 1em;
+  border-radius: .5em;
+  color: #fff;
+  &[disabled]{
+    background: transparentize(#444, .25);
+    color: transparentize(#fff, .7);
+    cursor: not-allowed;
+  }
+}
+
+.container__loader{
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 100%;
+  height: 100vh;
+  //background: rgba(255,255,0,.5);
+  align-content: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
 // http://tobiasahlin.com/spinkit/
@@ -127,13 +149,10 @@ body{
   width: 100px;
   text-align: center;
 }
-.placeholder__loading{
-  width: 100px;
-}
 
 .loader__item{
-  width: 18px;
-  height: 18px;
+  width: 30px;
+  height: 30px;
   background-color: #333;
 
   border-radius: 100%;

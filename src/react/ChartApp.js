@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Controls from "./Controls";
 import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
+import Loading from "./Loading";
 import {renderYearsArray, getYearFromDate} from '../helpers.js';
 
 
@@ -206,11 +207,9 @@ class ChartApp extends React.Component{
     // also expect no data yet (first load)
     const dataType = this.checkDataType(this.state.data);
 
-
     return (
-      <div className="container">
 
-        <p>All countries > Country: {this.state.country}, Year: {this.state.year}. isLoading: {this.state.isLoading ? 'yes' : 'no'}</p>
+      <div>
 
         <Controls
           view={this.state.view}
@@ -219,22 +218,27 @@ class ChartApp extends React.Component{
           year={this.state.year}
           years4Single={this.years4Single}
           years4All={this.years4All}
-          handleControles={this.handleControles}
-          isLoading={this.state.isLoading} />
+          handleControles={this.handleControles} />
 
-        {dataType === 'all' &&
-          <AllCountries
-            data={this.state.data}
-            handleCountrySelect={this.handleCountrySelect}
-            ref={this.countryOverviewRef}
-            year={this.state.year} />}
+        <div className="container">
 
-        {dataType === 'single' &&
-          <SingleCountries
-            data={this.state.data}
-            year={this.state.year}
-            country={this.getCountryFromData(this.state.data)} />}
+          {dataType === 'all' &&
+            <AllCountries
+              data={this.state.data}
+              handleCountrySelect={this.handleCountrySelect}
+              ref={this.countryOverviewRef}
+              year={this.state.year} />}
 
+          {dataType === 'single' &&
+            <SingleCountries
+              data={this.state.data}
+              year={this.state.year}
+              country={this.getCountryFromData(this.state.data)} />}
+
+        </div>
+
+        {this.state.isLoading && <Loading />}
+        
       </div>
     );
   };
