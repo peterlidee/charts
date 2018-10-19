@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Controls from "./Controls";
+import Loading from "./Loading";
 import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
-import Loading from "./Loading";
+import Footer from "./Footer";
+
 import {renderYearsArray, getYearFromDate} from '../helpers.js';
 
 
@@ -220,6 +222,8 @@ class ChartApp extends React.Component{
           years4All={this.years4All}
           handleControles={this.handleControles} />
 
+        {this.state.isLoading && <Loading />}
+
         <div className="container">
 
           {dataType === 'all' &&
@@ -235,10 +239,10 @@ class ChartApp extends React.Component{
               year={this.state.year}
               country={this.getCountryFromData(this.state.data)} />}
 
+          <Footer />
+
         </div>
 
-        {this.state.isLoading && <Loading />}
-        
       </div>
     );
   };
