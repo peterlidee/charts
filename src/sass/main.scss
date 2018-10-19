@@ -1,3 +1,4 @@
+@import '../../node_modules/html5-boilerplate/dist/css/normalize.css';
 @import 'variables';
 
 //$red: #ff0000;
@@ -74,44 +75,49 @@ body{
   border-radius: .5em;
 }
 
+
+
+
 .select__wrapper{
-  display: inline;
+  display: inline-block;
   background: $yellow;
   border-radius: .5em;
-  padding: .7em 2.5em .7em .25em;
   margin-left: .7em;
   position: relative;
 
   &:after{
-
-    //content: '';
+    content: '\25be';
     display: block;
     position: absolute;
-    width: 2em;
-    height: 2em;
-    background: blue;
-    border-radius: 50%;
-    right: .5em;
+    color: #222;
+    font-size: 2em;
+    line-height: 30px;
+    height: 30px;
+    right: 3px;
+    top: 2px;
+    z-index: 10;
   }
 }
 
 .select__style{
   //border: 1px solid $yellow;
 
-  padding: .25em;
+  padding: .5em;
   font-family: Arial, sans-serif;
   font-size: 1em;
-  background: none;
+  background: rgba(0,0,0,.25);
   border: none;
   color: #000;
-  font-size: 700;
-  background-image: none;
-  margin-left: .5em;
+  //background-image: none;
+  //margin-left: .5em;
 
   -moz-appearance:none; /* Firefox */
   -webkit-appearance:none; /* Safari and Chrome */
   appearance:none;
-  padding-right: 1.5em;
+  padding-right: 2em;
+
+  position: relative;
+  z-index: 100;
 
 }
 
