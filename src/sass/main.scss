@@ -5,17 +5,10 @@
 *   { box-sizing: border-box; }
 body{ background: #6a4c93; }
 
-.container{
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1em;
-}
-
 .chart__container{
   margin-bottom: 3em;
   background: #fff;
-  padding: .5em;
-  border-radius: .5em;
+  padding: 1em 0;
 }
 
 .chart__title{
@@ -25,9 +18,15 @@ body{ background: #6a4c93; }
 }
 
 @media screen and (min-width: 600px){
+  .container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1em;
+  }
   .chart__container{
     margin-bottom: 4em;
     padding: 2em;
+    border-radius: .5em;
   }
 }
 
@@ -44,117 +43,66 @@ body{ background: #6a4c93; }
   }
 }
 
-body{ padding-top: 6em; }
+/*  controle panel  */
+
+body{ padding-top: 10em; }
 
 .controls{
-  font-family: Arial, sans-serif; color: #222; font-size: 1em;
-  background: $purple;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  padding: 1em 1em 0 1em;
+  font-family: Arial, sans-serif; color: #222; font-size: 1em; text-align: center;
+  width: 100%; position: fixed; top: 0; padding: 1em 1em 0 1em;
   background: rgba($purple, .85);
 }
+.controle     { display: inline-block; margin: 0 1em 1em 0; }
+.controle--3  { margin-right: 0; }
 
-.controle{
-  display: inline-block;
-}
-.select__label{
-  display: inline-block;
-  background: #444;
-  color: #fff;
-  padding: 0 0 0 1em;
-  border-radius: .5em;
-  margin: 0 1.5em 1em 0;
-  .controle--3 & { margin-right: 0; }
-}
-
-@media screen and (min-width: 500px){
-  .controls{
-    text-align: center;
-  }
+.select__label{ display: inline-block;
+  span  { display: none; }
 }
 
 .select__wrapper{
-  display: inline-block;
-  background: $yellow; background: rgba(255,255,255,.95);
-  border-radius: .5em;
-  margin-left: .7em;
-  position: relative;
-
+  display: inline-block; background: rgba(255,255,255,.95); border-radius: .5em; margin-left: .7em; position: relative;
   &:after{
-    content: '\25be';
-    display: block;
-    position: absolute;
-    color: #222;
-    font-size: 2em;
-    line-height: 30px;
-    height: 30px;
-    right: 3px;
-    top: 2px;
-    z-index: 10;
+    content: '\25be'; display: block; height: 30px; font-size: 2em; color: #222; line-height: 30px; position: absolute; right: 3px; top: 2px; z-index: 10;
   }
 }
-
 .select__style{
-  background: none;
-  border: none;
-  -moz-appearance:none; /* Firefox */
-  -webkit-appearance:none; /* Safari and Chrome */
-
-  padding: .5em;
-  font-size: 1em;
-  color: #222;
-  appearance:none;
-  padding-right: 2em;
-  position: relative;
-  z-index: 100;
+  background: none; border: none; -moz-appearance:none; /* Firefox */ -webkit-appearance:none; /* Safari and Chrome */ appearance:none;
+  padding: .5em 2em .5em .5em; font-size: 1em; color: #222; position: relative; z-index: 100;
 }
-
 .controle__button{
-  display: inline-block;
-  border: none;
-  background: #444;
-  padding: .5em 1em;
-  border-radius: .5em;
-  color: #fff;
+  display: inline-block; border: none; background: #444; padding: .5em 1em; border-radius: .5em; color: #fff;
   &[disabled]{
-    background: transparentize(#444, .25);
-    color: transparentize(#fff, .7);
-    cursor: not-allowed;
+    background: transparentize(#444, .25); color: transparentize(#fff, .7); cursor: not-allowed;
   }
 }
+
+@media screen and (min-width: 400px){
+  body  { padding-top: 10em; }
+}
+
+@media screen and (min-width: 550px){
+  body  { padding-top: 8em; }
+  .select__label{ background: #444; color: #fff; padding: 0 0 0 1em; border-radius: .5em;
+    span{ display: inline; }
+  }
+}
+
+@media screen and (min-width: 700px){
+  body{ padding-top: 6em; }
+}
+
+
+
+/* loader */
 
 .container__loader{
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: grid;
-  width: 100%;
-  height: 100vh;
-  //background: rgba(255,255,0,.5);
-  align-content: center;
-  justify-content: center;
-  pointer-events: none;
+  position: fixed; top: 0; left: 0; display: grid; width: 100%; height: 100vh; align-content: center;
+  justify-content: center; pointer-events: none;
 }
 
 // http://tobiasahlin.com/spinkit/
-
-.loader {
-  width: 100px;
-  text-align: center;
-}
-
-.loader__item{
-  width: 30px;
-  height: 30px;
-  background-color: #333;
-
-  border-radius: 100%;
-  display: inline-block;
-  animation: sk-bouncedelay 1.2s infinite ease-in-out both;
-}
-
+.loader                   { width: 100px; text-align: center; }
+.loader__item             { width: 30px; height: 30px; background-color: #333; border-radius: 100%; display: inline-block; animation: sk-bouncedelay 1.2s infinite ease-in-out both; }
 .loader__item:nth-child(1){ animation-delay: -0.3s; }
 .loader__item:nth-child(2){ animation-delay: -0.15s; }
 

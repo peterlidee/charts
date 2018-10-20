@@ -7,7 +7,8 @@ const Controls = (props) => {
     <div className="controls">
 
       <div className="controle controle--1">
-        <label className="select__label">Pick a year:
+        <label className="select__label">
+          <span>Pick a year:</span>
           <div className="select__wrapper">
             <select value={props.year} id="year" onChange={(e) => props.handleControles(e)} className="select__style">
               {props.view === 'single' && props.years4Single.sort().map(year => <option key={year} value={year}>{year}</option>)}
@@ -18,7 +19,8 @@ const Controls = (props) => {
       </div>
 
       <div className="controle controle--2">
-        <label className="select__label">Pick a country:
+        <label className="select__label">
+          <span>Pick a country:</span>
           <div className="select__wrapper">
             <select value={props.country || ''} id="country" onChange={(e) => props.handleControles(e)} className="select__style">
               {props.view === 'all' && <option value=""></option>}
