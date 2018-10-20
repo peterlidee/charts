@@ -27,7 +27,7 @@ class ChartApp extends React.Component{
       year: 2018,
       isLoading: true,
       data: [],
-      error: false
+      //error: false
     }
     this.countryOverviewRef = React.createRef();
 
