@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
 import Controls from "./Controls";
 import Loading from "./Loading";
 import AllCountries from "./AllCountries";
+import SelectCountry from "./SelectCountry";
 import SingleCountries from "./SingleCountries";
 import Footer from "./Footer";
 
@@ -225,6 +227,8 @@ class ChartApp extends React.Component{
         {this.state.isLoading && <Loading />}
 
         <div className="container">
+
+        <SelectCountry countries={this.countries} />
 
           {dataType === 'all' &&
             <AllCountries

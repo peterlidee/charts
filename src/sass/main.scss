@@ -91,7 +91,24 @@ body{ padding-top: 10em; }
   body{ padding-top: 6em; }
 }
 
+/* selectCountry */
 
+.selectCountry{
+
+}
+.countries__list{
+  display: grid;
+  //flex-direction: column;
+  //flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1em;
+  margin-bottom: 2em;
+  a{
+    //flex: auto 1 1;
+    text-align: center;
+    color: $purple;
+  }
+}
 
 /* loader */
 
