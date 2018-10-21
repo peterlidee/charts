@@ -5,7 +5,6 @@ import React from 'react';
 // though it will not be directly linked anywhere
 
 const SelectCountry = (props) => {
-  console.log(props.countries)
   return(
     <div className="chart__container selectCountry">
       <h2 className="chart__title">Pick a country</h2>
