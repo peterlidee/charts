@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 // this comp serves as a fallback
 // incase anybody changes the url to /country/ this comp will be served
@@ -10,9 +11,9 @@ const SelectCountry = (props) => {
       <h2 className="chart__title">Pick a country</h2>
       <div className="countries__list">
         {props.countries.map(country => {
-          //<Link to={`country/${country}`} key={country}>{country}</Link>
           return (
-            <a href="#" key={country}>{country}</a>
+            //<a href="#" key={country}>{country}</a>
+            <Link to={`/${country}`} key={country}>{country}</Link>
           );
         })}
       </div>

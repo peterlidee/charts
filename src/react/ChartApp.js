@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import {Switch, Route} from "react-router-dom";
 
 import Controls from "./Controls";
 import Loading from "./Loading";
@@ -7,6 +8,9 @@ import AllCountries from "./AllCountries";
 import SelectCountry from "./SelectCountry";
 import SingleCountries from "./SingleCountries";
 import Footer from "./Footer";
+
+import Test1 from "./Test1";
+import Test2 from "./Test2";
 
 import {renderYearsArray, getYearFromDate} from '../helpers.js';
 
@@ -230,7 +234,29 @@ class ChartApp extends React.Component{
 
         <SelectCountry countries={this.countries} />
 
-          {dataType === 'all' &&
+          <Switch>
+            <Route exact path="/" component={Test1} />
+            <Route path="/:country" component={Test2} />
+            {/*<Route exact
+              path="/"
+              render={props =>
+                <AllCountries
+                  data={this.state.data}
+                  handleCountrySelect={this.handleCountrySelect}
+                  ref={this.countryOverviewRef}
+                  year={this.state.year} />}
+
+            <Route
+              path="/:country"
+              render={props =>
+                <SingleCountries
+                  data={this.state.data}
+                  year={this.state.year}
+                  country={this.getCountryFromData(this.state.data)} />
+              }*/}
+          </Switch>
+
+          {/*dataType === 'all' &&
             <AllCountries
               data={this.state.data}
               handleCountrySelect={this.handleCountrySelect}
@@ -241,7 +267,7 @@ class ChartApp extends React.Component{
             <SingleCountries
               data={this.state.data}
               year={this.state.year}
-              country={this.getCountryFromData(this.state.data)} />}
+              country={this.getCountryFromData(this.state.data)} />*/}
 
           <Footer />
 
@@ -253,5 +279,3 @@ class ChartApp extends React.Component{
 };
 
 export default ChartApp;
-
-ReactDOM.render(<ChartApp />, document.getElementById("chartApp"));
