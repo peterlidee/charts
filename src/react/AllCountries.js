@@ -102,7 +102,7 @@ class AllCountries extends React.Component {
     }
 
     //get the year from data, not from state!!
-    const currYear = rawData[0].year;
+    const currYear = rawData.length > 0 ? rawData[0].year : '';
 
     return (
       <div className="chart__container">

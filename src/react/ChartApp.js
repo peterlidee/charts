@@ -28,7 +28,7 @@ class ChartApp extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      view: 'single', // all - single
+      view: 'all', // all - single
       country: 'Belgium',
       year: 2018,
       isLoading: true,
@@ -234,10 +234,31 @@ class ChartApp extends React.Component{
 
         <SelectCountry countries={this.countries} />
 
-          {/*<Switch>
-            <Route exact path="/" component={Test1} />
-            <Route path="/:country" component={Test2} />
+          <Switch>
             <Route exact
+              path="/"
+              render={props =>
+                <AllCountries
+                  data={this.state.data}
+                  handleCountrySelect={this.handleCountrySelect}
+                  ref={this.countryOverviewRef}
+                  year={this.state.year} />
+            }/>
+
+            <Route
+              path="/:country"
+              render={props =>
+                <SingleCountries
+                  data={this.state.data}
+                  year={this.state.year}
+                  //country={this.getCountryFromData(this.state.data)} />
+                  country={this.state.country} />
+            }/>
+
+
+            {/*<Route exact path="/" render={props => <Test1 message="Heloo" />} />
+            <Route path="/:country" component={Test2} />*/}
+            {/*<Route exact
               path="/"
               render={props =>
                 <AllCountries
@@ -252,9 +273,8 @@ class ChartApp extends React.Component{
                 <SingleCountries
                   data={this.state.data}
                   year={this.state.year}
-                  country={this.getCountryFromData(this.state.data)} />
-              }
-          </Switch>*/}
+                  country={this.getCountryFromData(this.state.data)} />}*/}
+          </Switch>
 
           {/*dataType === 'all' &&
             <AllCountries
