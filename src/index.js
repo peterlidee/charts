@@ -1,13 +1,15 @@
-//import Root from "./react/Root";
-
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+
 import ChartApp from "./react/ChartApp";
 
 import style from "./sass/main.scss";
 
 const Root = () => {
+  {/*}<BrowserRouter>
+    <ChartApp />
+  </BrowserRouter>{*/}
   return(
     <BrowserRouter>
       <ChartApp />

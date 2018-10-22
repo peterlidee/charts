@@ -234,10 +234,10 @@ class ChartApp extends React.Component{
 
         <SelectCountry countries={this.countries} />
 
-          <Switch>
+          {/*<Switch>
             <Route exact path="/" component={Test1} />
             <Route path="/:country" component={Test2} />
-            {/*<Route exact
+            <Route exact
               path="/"
               render={props =>
                 <AllCountries
@@ -253,8 +253,8 @@ class ChartApp extends React.Component{
                   data={this.state.data}
                   year={this.state.year}
                   country={this.getCountryFromData(this.state.data)} />
-              }*/}
-          </Switch>
+              }
+          </Switch>*/}
 
           {/*dataType === 'all' &&
             <AllCountries
