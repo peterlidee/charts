@@ -1,7 +1,7 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
-import {prettyfyPopulationNum} from '../helpers.js';
-import {colors} from '../colors';
+import {prettyfyPopulationNum} from '../js/helpers.js';
+import {colors} from '../js/colors';
 
 class SingleYears extends React.Component{
   constructor(props){

@@ -1,7 +1,7 @@
 import React from 'react';
 import {HorizontalBar} from 'react-chartjs-2';
-import {prettyfyPopulationNum} from '../helpers.js';
-import {colors} from '../colors';
+import {prettyfyPopulationNum} from '../js/helpers.js';
+import {colors} from '../js/colors';
 
 class SingleAverages extends React.Component{
   constructor(props){

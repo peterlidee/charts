@@ -1,5 +1,5 @@
 import React from 'react';
-import {colors} from '../colors';
+import {colors} from '../js/colors';
 
 const Loading = ()=> {
   return(

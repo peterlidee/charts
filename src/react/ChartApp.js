@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Switch, Route} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import Controls from "./Controls";
 import Loading from "./Loading";
@@ -12,7 +12,7 @@ import Footer from "./Footer";
 import Test1 from "./Test1";
 import Test2 from "./Test2";
 
-import {renderYearsArray, getYearFromDate} from '../helpers.js';
+import {renderYearsArray, getYearFromDate} from '../js/helpers.js';
 
 
 // set some default values for all charts
@@ -235,11 +235,11 @@ class ChartApp extends React.Component{
         <SelectCountry countries={this.countries} />
 
           <Switch>
+
             <Route exact
               path="/"
               render={props =>
                 <AllCountries
-                  data={this.state.data}
                   handleCountrySelect={this.handleCountrySelect}
                   ref={this.countryOverviewRef}
                   year={this.state.year} />

@@ -4,7 +4,7 @@ import SingleAgeGroups from "./SingleAgeGroups";
 import SingleMaleFemale from "./SingleMaleFemale";
 import SingleAverages from "./SingleAverages";
 import {Bar} from "react-chartjs-2";
-import {prettyfyPopulationNum} from "../helpers.js";
+import {prettyfyPopulationNum} from "../js/helpers.js";
 
 class SingleCountries extends React.Component{
   constructor(props){
