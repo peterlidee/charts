@@ -4,12 +4,82 @@ import SingleAgeGroups from "./SingleAgeGroups";
 import SingleMaleFemale from "./SingleMaleFemale";
 import SingleAverages from "./SingleAverages";
 import {Bar} from "react-chartjs-2";
-import {prettyfyPopulationNum} from "../js/helpers.js";
+import {prettyfyPopulationNum, doFetch} from "../js/helpers.js";
 
 class SingleCountries extends React.Component{
   constructor(props){
-    super(props)
+    super(props);
+    this.state = {
+      blob: [],
+    }
+    this.handleFetch = this.handleFetch.bind(this);
   }
+
+  handleFetch(){
+
+    // view all
+    // all the countries -> the total population -> 2018
+    // http://api.population.io/1.0/population/Belgium/2018-01-01/
+
+    const fetch = doFetch(countries, `${this.props.year}-01-01`);
+
+    Promise.all(fetch)
+      .then( values => {
+        const combinedData = values.map((value, i) => {
+          if(!value){ // if there was no response, return undefined as data
+            return { 'countryName': this.countries[i], 'population': undefined, 'year': this.state.year }
+          }else{ // else return the data
+            return { 'countryName': this.countries[i], 'population': value.total_population.population, 'year': getYearFromDate(value.total_population.date) };
+          }
+        });
+      this.setState({
+        blob: combinedData,
+        isLoading: false
+      });
+    })
+    .catch(error => this.setState({ error: error, isLoading: false })); /* isn't used */
+  }
+
+  handleFetch(){
+
+    // view single
+    // one country -> 20 years
+    // http://api.population.io/1.0/population/2018/Belgium/
+
+    const fetch = this.doFetch(this.years4Single, this.props.country);
+
+    Promise.all(fetch)
+      .then( values => {
+        const combinedData = values.map((value, i) => {
+
+          //console.log(value);
+
+          if(!value){ // if there was no response, return undefined as data
+            //console.log(value)
+            return (this.state.view === 'all') ?
+              { 'countryName': fetchArray[i], 'population': undefined, 'datatype' : 'all', 'year': this.state.year } :
+              { 'year': fetchArray[i], 'population': undefined, 'datatype' : 'single' };
+          }else{ // else return the data
+            return (this.state.view === 'all') ?
+              { 'countryName': fetchArray[i], 'population': value.total_population.population, 'datatype' : 'all', 'year': getYearFromDate(value.total_population.date) } :
+              { 'year': fetchArray[i], 'population': value, 'datatype' : 'single' };
+          }
+        });
+      this.setState({
+        data: combinedData,
+        // data was loaded
+        isLoading: false
+      });
+    })
+    .catch(error => this.setState({ error: error, isLoading: false }));
+
+
+  }
+
+
+
+
+
 
   render(){
 

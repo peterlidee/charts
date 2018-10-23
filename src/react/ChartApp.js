@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import Controls from "./Controls";
 import Loading from "./Loading";
@@ -9,8 +9,10 @@ import SelectCountry from "./SelectCountry";
 import SingleCountries from "./SingleCountries";
 import Footer from "./Footer";
 
-import Test1 from "./Test1";
-import Test2 from "./Test2";
+//import Test1 from "./Test1";
+//import Test2 from "./Test2";
+
+//console.log(Redirect);
 
 import {renderYearsArray, getYearFromDate} from '../js/helpers.js';
 
@@ -139,6 +141,7 @@ class ChartApp extends React.Component{
       // so we need to handle this
       const oldView = this.state.view;
       const oldYear = +this.state.year;
+
       if(oldView === 'single' && oldYear < 2014){
         this.setState({
           view: 'all',
@@ -157,11 +160,19 @@ class ChartApp extends React.Component{
       this.setState({
         year: e.target.value
       });
+
+
     }else if(e.target.id === 'country'){
+
+      console.log('country changed', this.props);
+
       this.setState({
         view: 'single',
         country: e.target.value
       });
+
+      <Redirect to="/Belgium" push />
+
     }
   }
 
