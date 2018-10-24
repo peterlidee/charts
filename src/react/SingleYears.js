@@ -8,12 +8,14 @@ class SingleYears extends React.Component{
     super(props)
   }
   render(){
+
     const data = {
       datasets: [
         {
           label: 'males',
           type:'bar',
-          data: this.props.blob.males || [],
+          //data: this.props.blob.males || [],
+          data: this.props.blob.map(item => item.males),
           fill: false,
           backgroundColor: colors.males,
           hoverBackgroundColor: colors.males,
@@ -24,7 +26,7 @@ class SingleYears extends React.Component{
         {
           type: 'bar',
           label: 'females',
-          data: this.props.blob.females || [],
+          data: this.props.blob.map(item => item.females),
           fill: false,
           backgroundColor: colors.females,
           hoverBackgroundColor: colors.females,
@@ -35,7 +37,7 @@ class SingleYears extends React.Component{
         {
           type: 'line',
           label: 'total population',
-          data: this.props.blob.total  || [],
+          data: this.props.blob.map(item => item.total),
           fill: false,
           backgroundColor: colors.total,
           borderWidth: 3,
@@ -63,7 +65,7 @@ class SingleYears extends React.Component{
       },
       scales: {
         xAxes: [{
-          labels: this.props.blob.year || [],
+          labels: this.props.blob.map(item => item.year),
           scaleLabel: {
             display: true,
             labelString: 'years'

@@ -17,19 +17,21 @@ class SingleCountries extends React.Component{
 
   handleFetch(){
 
-    // view all
-    // all the countries -> the total population -> 2018
-    // http://api.population.io/1.0/population/Belgium/2018-01-01/
+    // view single
+    // one country -> 20 years
+    // http://api.population.io/1.0/population/2018/Belgium/
 
-    const fetch = doFetch(countries, `${this.props.year}-01-01`);
+    const fetch = doFetch(this.props.years, this.props.match.params.country);
 
     Promise.all(fetch)
       .then( values => {
         const combinedData = values.map((value, i) => {
           if(!value){ // if there was no response, return undefined as data
-            return { 'countryName': this.countries[i], 'population': undefined, 'year': this.state.year }
+            //return { 'year': this.props.years[i], 'population': undefined };
+            return undefined;
           }else{ // else return the data
-            return { 'countryName': this.countries[i], 'population': value.total_population.population, 'year': getYearFromDate(value.total_population.date) };
+            //return { 'year': this.props.years[i], 'population': value };
+            return value;
           }
         });
       this.setState({
@@ -37,99 +39,86 @@ class SingleCountries extends React.Component{
         isLoading: false
       });
     })
-    .catch(error => this.setState({ error: error, isLoading: false })); /* isn't used */
-  }
-
-  handleFetch(){
-
-    // view single
-    // one country -> 20 years
-    // http://api.population.io/1.0/population/2018/Belgium/
-
-    const fetch = this.doFetch(this.years4Single, this.props.country);
-
-    Promise.all(fetch)
-      .then( values => {
-        const combinedData = values.map((value, i) => {
-
-          //console.log(value);
-
-          if(!value){ // if there was no response, return undefined as data
-            //console.log(value)
-            return (this.state.view === 'all') ?
-              { 'countryName': fetchArray[i], 'population': undefined, 'datatype' : 'all', 'year': this.state.year } :
-              { 'year': fetchArray[i], 'population': undefined, 'datatype' : 'single' };
-          }else{ // else return the data
-            return (this.state.view === 'all') ?
-              { 'countryName': fetchArray[i], 'population': value.total_population.population, 'datatype' : 'all', 'year': getYearFromDate(value.total_population.date) } :
-              { 'year': fetchArray[i], 'population': value, 'datatype' : 'single' };
-          }
-        });
-      this.setState({
-        data: combinedData,
-        // data was loaded
-        isLoading: false
-      });
-    })
     .catch(error => this.setState({ error: error, isLoading: false }));
 
-
   }
 
 
+  componentDidMount() {
+
+    //console.log('comp singleCountries did mount')
+    // call the data and put it in state
+    this.handleFetch();
+
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('comp did update')
+    //this.handleFetch();
+
+  }
 
 
 
 
   render(){
 
-    const countryData = this.props.data;
-    //console.log('countryData', countryData)
+    const rawData = [...this.state.blob];
+    //console.log('countryData', rawData);
 
     // gather relevant data arrays [1],[2],[3],[4]
 
     // [1] get total pop in curr country for every year
-    let totalsPerYear = {
+    /*let totalsPerYear = {
       year : [],
       total: [],
       males: [],
       females: []
-    };
-    const countryPerYear = countryData.map(item => {
+    };*/
+
+    const countryPerYear = rawData.map(item => {
+      // item.reduce
+      // console.log(item);
       // handle no data
-      if(item.population === undefined){
+      /*if(item.population === undefined){
         return { year: item.year, total: 0, males: 0, females: 0 };
-      }
+      }*/
       // reduce to single data point
-      const totals = item.population.reduce((acc, curr) => {
+      const totals = item.reduce((acc, curr) => {
         acc.total += curr.total;
         acc.males += curr.males;
         acc.females += curr.females;
         return acc;
       }, {total: 0, males: 0, females: 0});
-      totals.year = item.year;
+      totals.year = item[0].year;
       return totals;
     });
-    //console.log(countryPerYear);
+    //console.log('countryPerYear', countryPerYear);
+
 
     // convert to arrays
-    countryPerYear.map(year => {
+    /*countryPerYear.map(year => {
       Object.keys(year).map((key, i) => {
         totalsPerYear[key].push(year[key]);
       });
     });
-    //console.log('totalsPerYear', totalsPerYear);
+    console.log('totalsPerYear', totalsPerYear);*/
 
+    //console.log('hello')
+
+
+    // get current year
+    const dataCurrYear = rawData.filter( item => item[0].year === +this.props.year );
 
     // [2] get for one given year,
     // -> the population per age group
-    let ageGroupsData = {
+    /*let ageGroupsData = {
       //labels : ['-18', '18-44', '45-65', '65+'],
       labels : ['-10','10s','20s','30s','40s','50s','60s','70s','80s','90s'],
       total: [],
       males: [],
       females: []
-    };
+    };*/
 
     //const ageGroupRanges = [[0,17], [18,44], [45,65], [66,150]];
     const ageGroupRanges = [[0,9], [10, 19], [20,29], [30,39], [40,49], [50,59], [60,69], [70,79], [80,89], [90,150]];
@@ -138,19 +127,27 @@ class SingleCountries extends React.Component{
     // reduce the data to the totals of these ageGroups
     // per agegroup -> {total: x, males: x, females: x}
 
-    // get current year
-    const dataCurrYear = countryData.filter(item => +item.year === +this.props.year);
+
+    //console.log('dataCurrYear', dataCurrYear);
 
     // filter per agegroup
     const agesPerAgeGroup = ageGroupRanges.map(ageGroupRange => {
       if(dataCurrYear.length > 0){
-        return dataCurrYear[0].population
+        return dataCurrYear[0]
+          // group them per age group
           .filter(item => item.age >= ageGroupRange[0] && item.age <= ageGroupRange[1])
+          // reduce them to a single number
+          .reduce((acc, curr) => {
+            acc.total += curr.total;
+            acc.males += curr.males;
+            acc.females += curr.females;
+            return acc;
+          }, { total: 0, males: 0, females: 0 })
       }
     });
     //console.log('agesPerAgeGroup', agesPerAgeGroup);
 
-    const ageGroupTotals = agesPerAgeGroup.map(item => {
+    /*const ageGroupTotals = agesPerAgeGroup.map(item => {
       if(item !== undefined){
         return item.reduce((acc, curr) => {
           acc.total += curr.total;
@@ -170,26 +167,26 @@ class SingleCountries extends React.Component{
       }
     });
     //console.log(ageGroupsData);
-
+    */
 
 
     // [3] male/female numbers curr year
-    const maleFemaleCurrYear = ageGroupTotals.reduce((acc, curr) => {
+    const maleFemaleCurrYear = agesPerAgeGroup.reduce((acc, curr) => {
       if(curr !== undefined){
         acc.males += curr.males;
         acc.females += curr.females;
         return acc;
       }
-    }, { males: 0, females: 0 }) || [];
+    }, { males: 0, females: 0 });
     //console.log('maleFemaleCurrYear', maleFemaleCurrYear);
 
 
 
     // [4] average and mean per year for total, male, female
     const averagesCurrYear = dataCurrYear.map(item => {
+      console.log(item);
       if(item !== undefined){
-        //console.log(item);
-        const total = item.population.reduce((acc, curr) => {
+        const total = item.reduce((acc, curr) => {
           acc.sumTotal += (curr.total * curr.age);
           acc.allTotal += curr.total;
           acc.sumMales += (curr.males * curr.age);
@@ -207,10 +204,10 @@ class SingleCountries extends React.Component{
         return averages;
       }
     });
-    //console.log('averageCurrYear', averagesCurrYear);
+    //console.log('averageCurrYear', averagesCurrYear[0]);
 
     // convert to arrays
-    let singleAveragesData = {};
+    /*let singleAveragesData = {};
 
     averagesCurrYear.map(item => {
       if(item !== undefined){
@@ -218,18 +215,19 @@ class SingleCountries extends React.Component{
         singleAveragesData.labels = keys;
         singleAveragesData.data = keys.map(key => item[key]);
       }
-    });
+    });*/
     //console.log('singleAveragesData', singleAveragesData);
 
     return(
       <div className="singleCountry">
 
-        <SingleYears blob={totalsPerYear} country={this.props.country} />
-        <SingleAgeGroups blob={ageGroupsData} country={this.props.country} year={this.props.year} />
+        <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
+        <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
         <div className="half-charts__container">
-          <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.country} year={this.props.year} />
-          <SingleAverages blob={singleAveragesData} country={this.props.country} year={this.props.year} />
+          <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.match.params.country} year={this.props.year} />
+          <SingleAverages blob={averagesCurrYear[0]} country={this.props.match.params.country} year={this.props.year} />
         </div>
+
       </div>
     );
   }

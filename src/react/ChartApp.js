@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 import Controls from "./Controls";
 import Loading from "./Loading";
@@ -39,7 +39,7 @@ class ChartApp extends React.Component{
     }
     this.countryOverviewRef = React.createRef();
 
-    this.handleFetch = this.handleFetch.bind(this);
+    //this.handleFetch = this.handleFetch.bind(this);
     this.handleCountrySelect = this.handleCountrySelect.bind(this);
     this.handleControles = this.handleControles.bind(this);
 
@@ -56,7 +56,7 @@ class ChartApp extends React.Component{
   }
 
   // this does the fetch to the api
-  doFetch(arr, param){
+  /*doFetch(arr, param){
     return arr.map(item => {
       // all countries in 2018 -> state.view all
       // http://api.population.io/1.0/population/${country}/2018-01-01/ -> min 2013 !!!
@@ -70,10 +70,10 @@ class ChartApp extends React.Component{
           return response.ok ? response.json() : false;
         })
     });
-  }
+  }*/
 
 
-  handleFetch(){
+  /*handleFetch(){
 
     // while loading data
     this.setState({ isLoading: true });
@@ -118,7 +118,7 @@ class ChartApp extends React.Component{
     .catch(error => this.setState({ error: error, isLoading: false }));
 
 
-  }
+  }*/
 
   handleCountrySelect(){
     // this handles 2 events: click on tick label or click on bar
@@ -164,14 +164,16 @@ class ChartApp extends React.Component{
 
     }else if(e.target.id === 'country'){
 
-      console.log('country changed', this.props);
+      //console.log('country changed', this.props);
 
-      this.setState({
+      /*this.setState({
         view: 'single',
         country: e.target.value
-      });
+      });*/
 
-      <Redirect to="/Belgium" push />
+      //<Redirect to="/Belgium" push />
+      //console.log(this.props);
+      this.props.history.push(e.target.value);
 
     }
   }
@@ -197,7 +199,7 @@ class ChartApp extends React.Component{
 
   componentDidMount() {
     //console.log('comp did mount ran');
-    this.handleFetch();
+    //this.handleFetch();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -206,12 +208,12 @@ class ChartApp extends React.Component{
     // there was a change in the view
     // the view is all and the year changes
     // when the country changes
-    if (
+    /*if (
       this.state.view !== prevState.view ||
       ( this.state.view === prevState.view && this.state.view === 'all' && this.state.year !== prevState.year ) ||
       this.state.country !== prevState.country) {
       this.handleFetch();
-    }
+    }*/
   }
 
   render(){
@@ -230,27 +232,29 @@ class ChartApp extends React.Component{
 
       <div>
 
-        <Controls
-          view={this.state.view}
-          country={this.state.country}
-          countries={this.countries}
-          year={this.state.year}
-          years4Single={this.years4Single}
-          years4All={this.years4All}
-          handleControles={this.handleControles} />
+        {/*<Route>*/}
+          <Controls
+            view={this.state.view}
+            country={this.state.country}
+            countries={this.countries}
+            year={this.state.year}
+            years4Single={this.years4Single}
+            years4All={this.years4All}
+            handleControles={this.handleControles} />
+        {/*</Route>*/}
 
         {this.state.isLoading && <Loading />}
 
         <div className="container">
 
-        <SelectCountry countries={this.countries} />
+        {/*<SelectCountry countries={this.countries} />*/}
 
           <Switch>
 
             <Route exact
               path="/"
               render={props =>
-                <AllCountries
+                <AllCountries {...props}
                   handleCountrySelect={this.handleCountrySelect}
                   ref={this.countryOverviewRef}
                   year={this.state.year} />
@@ -259,11 +263,12 @@ class ChartApp extends React.Component{
             <Route
               path="/:country"
               render={props =>
-                <SingleCountries
-                  data={this.state.data}
+                <SingleCountries {...props}
+                  //data={this.state.data}
                   year={this.state.year}
                   //country={this.getCountryFromData(this.state.data)} />
-                  country={this.state.country} />
+                  country={this.state.country}
+                  years={this.years4Single} />
             }/>
 
 
@@ -309,4 +314,5 @@ class ChartApp extends React.Component{
   };
 };
 
-export default ChartApp;
+//export default ChartApp;
+export default withRouter(ChartApp);

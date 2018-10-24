@@ -8,9 +8,10 @@ class SingleMaleFemale extends React.Component{
     super(props)
   }
   render(){
-    //console.log(this.props.maleFemaleCurrYear);
+
+    //console.log('blob', this.props.blob);
     const maleFemaleData = this.props.blob;
-    const maleFemaleKeys = Object.keys(maleFemaleData);
+    const maleFemaleKeys = maleFemaleData !== undefined ? Object.keys(maleFemaleData) : [];
 
     const data = {
     	labels: maleFemaleKeys,

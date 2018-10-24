@@ -7,9 +7,6 @@ import ChartApp from "./react/ChartApp";
 import style from "./sass/main.scss";
 
 const Root = () => {
-  {/*}<BrowserRouter>
-    <ChartApp />
-  </BrowserRouter>{*/}
   return(
     <BrowserRouter>
       <ChartApp />
