@@ -4,7 +4,7 @@ import SingleAgeGroups from "./SingleAgeGroups";
 import SingleMaleFemale from "./SingleMaleFemale";
 import SingleAverages from "./SingleAverages";
 import {Bar} from "react-chartjs-2";
-import {prettyfyPopulationNum, doFetch} from "../js/helpers.js";
+import { prettyfyPopulationNum, doFetch, renderYearsArray } from "../js/helpers.js";
 
 class SingleCountries extends React.Component{
   constructor(props){
@@ -13,6 +13,7 @@ class SingleCountries extends React.Component{
       blob: [],
     }
     this.handleFetch = this.handleFetch.bind(this);
+    this.years = renderYearsArray(20);
   }
 
   handleFetch(){
@@ -21,7 +22,7 @@ class SingleCountries extends React.Component{
     // one country -> 20 years
     // http://api.population.io/1.0/population/2018/Belgium/
 
-    const fetch = doFetch(this.props.years, this.props.match.params.country);
+    const fetch = doFetch(this.years, this.props.match.params.country);
 
     Promise.all(fetch)
       .then( values => {
@@ -67,6 +68,8 @@ class SingleCountries extends React.Component{
   render(){
 
     const rawData = [...this.state.blob];
+
+    //console.log(years);
     //console.log('countryData', rawData);
 
     // gather relevant data arrays [1],[2],[3],[4]

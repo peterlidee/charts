@@ -1,5 +1,6 @@
 import React from 'react';
-import { countries } from '../js/countries'
+import { countries } from '../js/countries';
+import { renderYearsArray } from '../js/helpers';
 
 const Controls = (props) => {
   //console.log('controles props', props);
@@ -7,6 +8,10 @@ const Controls = (props) => {
   //console.log(viewAll);
 
   const currCountry = (props.match !== null) ? props.match.params.country : '';
+  const years = currCountry === '' ? renderYearsArray(5) : renderYearsArray(20);
+
+  //this.years4Single = renderYearsArray(20);
+  //this.years4All = renderYearsArray(5);
 
   return(
 
@@ -17,8 +22,7 @@ const Controls = (props) => {
           <span>Pick a year:</span>
           <div className="select__wrapper">
             <select value={props.year} id="year" onChange={(e) => props.handleControles(e)} className="select__style">
-              {currCountry === '' && props.years4All.sort().map(year => <option key={year} value={year}>{year}</option>)}
-              {currCountry !== '' && props.years4Single.sort().map(year => <option key={year} value={year}>{year}</option>)}
+              { years.sort().map(year => <option key={year} value={year}>{year}</option>) }
             </select>
           </div>
         </label>

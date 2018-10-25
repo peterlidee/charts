@@ -1,18 +1,12 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 
 import Controls from "./Controls";
-import Loading from "./Loading";
 import AllCountries from "./AllCountries";
-import SelectCountry from "./SelectCountry";
 import SingleCountries from "./SingleCountries";
 import Footer from "./Footer";
 
-//import Test1 from "./Test1";
-//import Test2 from "./Test2";
-
-//console.log(Redirect);
+import Loading from "./Loading";
 
 import {renderYearsArray, getYearFromDate} from '../js/helpers.js';
 
@@ -149,7 +143,7 @@ class ChartApp extends React.Component{
         this.setState({ year: 2014 });
       }
       this.props.history.push('/');
-      
+
     }else if(e.target.id === 'country'){  this.props.history.push(e.target.value);
     }else if(e.target.id === 'year'){     this.setState({ year: e.target.value });
     }
@@ -198,8 +192,6 @@ class ChartApp extends React.Component{
 
     // check if country exists!!!!!!!!!!!
 
-    //if(this.props.match.params.country === undefined)
-
     // if isLoading = true it means that there's a problem
     // the new data hasn't arrived yet but the new components are getting mounted
     // so the new comps get fed the wrong data => errors
@@ -218,16 +210,14 @@ class ChartApp extends React.Component{
             //country={''}
             //countries={this.countries}
             year={this.state.year}
-            years4Single={this.years4Single}
-            years4All={this.years4All}
+            //years4Single={this.years4Single}
+            //years4All={this.years4All}
             handleControles={this.handleControles} />
         }/>
 
         {this.state.isLoading && <Loading />}
 
         <div className="container">
-
-        {/*<SelectCountry countries={this.countries} />*/}
 
           <Switch>
 
@@ -248,7 +238,8 @@ class ChartApp extends React.Component{
                   year={this.state.year}
                   //country={this.getCountryFromData(this.state.data)} />
                   //country={this.state.country}
-                  years={this.years4Single} />
+                  //years={this.years4Single}
+                  />
             }/>
 
 
