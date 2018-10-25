@@ -45,8 +45,8 @@ class ChartApp extends React.Component{
       'Latvia', 'Lithuania', 'Slovak Republic', 'United Kingdom', 'Croatia', 'Serbia',
       'Bosnia and Herzegovina', 'Bulgaria', 'Czech Republic', 'Hungary', 'Slovenia', 'Switzerland'
     ];*/
-    this.years4Single = renderYearsArray(20);
-    this.years4All = renderYearsArray(5);
+    //this.years4Single = renderYearsArray(20);
+    //this.years4All = renderYearsArray(5);
   }
 
   // this does the fetch to the api
