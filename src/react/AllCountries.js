@@ -1,30 +1,27 @@
 import React from 'react';
-import {HorizontalBar} from 'react-chartjs-2';
 import {prettyfyPopulationNum, doFetch, getYearFromDate} from '../js/helpers.js';
 import {colors} from '../js/colors';
 import {countries} from '../js/countries';
+import Loading from "./Loading";
+import {HorizontalBar} from 'react-chartjs-2';
 
 class AllCountries extends React.Component {
   constructor(props){
     super(props);
-    //this.test = this.test.bind(this);
-
-
     this.state = {
       isLoading: true,
       blob: [],
-      //error: false
     }
-
     this.horizontalBarRef = React.createRef();
     this.countries = countries.sort((a, b) => a > b);
-
     this.handleFetch = this.handleFetch.bind(this);
 
   }
 
 
   handleFetch(){
+
+    this.setState({ isLoading: true });
 
     // view all
     // all the countries -> the total population -> 2018
@@ -43,7 +40,7 @@ class AllCountries extends React.Component {
         });
       this.setState({
         blob: combinedData,
-        isLoading: false
+        isLoading: false,
       });
     })
     .catch(error => this.setState({ error: error, isLoading: false })); /* isn't used */
@@ -87,9 +84,6 @@ class AllCountries extends React.Component {
     }
 
   }
-
-
-
 
   render() {
 
@@ -152,13 +146,10 @@ class AllCountries extends React.Component {
       },
     }
 
-    //get the year from data, not from state!!
-    // so the year updated synchrone with the data, after it was fetched
-    const currYear = this.state.blob[0] !== undefined ? this.state.blob[0].year : '';
-
     return (
       <div className="chart__container">
-        <h2 className="chart__title">European populations in {currYear}</h2>
+        {this.state.isLoading && <Loading />}
+        <h2 className="chart__title">European populations in {this.props.year}</h2>
         <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
       </div>
     )

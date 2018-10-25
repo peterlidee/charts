@@ -6,7 +6,7 @@ import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
 import Footer from "./Footer";
 
-import Loading from "./Loading";
+//import Loading from "./Loading";
 
 import {renderYearsArray, getYearFromDate} from '../js/helpers.js';
 
@@ -121,8 +121,8 @@ class ChartApp extends React.Component{
     const tickLabel = ref.chartInstance.labelTick;
     const barLabel = ref.chartInstance.labelBar;
 
-    if(tickLabel){ this.setState({ country: tickLabel, view: 'single', })};
-    if(barLabel){ this.setState({ country: barLabel, view: 'single', })};
+    if(tickLabel){ this.props.history.push(tickLabel) };
+    if(barLabel){ this.props.history.push(barLabel) };
 
   }
 
@@ -215,7 +215,7 @@ class ChartApp extends React.Component{
             handleControles={this.handleControles} />
         }/>
 
-        {this.state.isLoading && <Loading />}
+        {/*this.state.isLoading && <Loading />*/}
 
         <div className="container">
 

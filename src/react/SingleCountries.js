@@ -3,6 +3,8 @@ import SingleYears from "./SingleYears";
 import SingleAgeGroups from "./SingleAgeGroups";
 import SingleMaleFemale from "./SingleMaleFemale";
 import SingleAverages from "./SingleAverages";
+
+import Loading from "./Loading";
 import {Bar} from "react-chartjs-2";
 import { prettyfyPopulationNum, doFetch, renderYearsArray } from "../js/helpers.js";
 
@@ -11,12 +13,15 @@ class SingleCountries extends React.Component{
     super(props);
     this.state = {
       blob: [],
+      isLoading: true,
     }
     this.handleFetch = this.handleFetch.bind(this);
     this.years = renderYearsArray(20);
   }
 
   handleFetch(){
+
+    this.setState({ isLoading: true });
 
     // view single
     // one country -> 20 years
@@ -226,6 +231,7 @@ class SingleCountries extends React.Component{
 
     return(
       <div className="singleCountry">
+        {this.state.isLoading && <Loading />}
         <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
         <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
         <div className="half-charts__container">
