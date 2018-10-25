@@ -1,4 +1,5 @@
 import React from "react";
+
 import SingleYears from "./SingleYears";
 import SingleAgeGroups from "./SingleAgeGroups";
 import SingleMaleFemale from "./SingleMaleFemale";
@@ -7,6 +8,7 @@ import SingleAverages from "./SingleAverages";
 import Loading from "./Loading";
 import {Bar} from "react-chartjs-2";
 import { prettyfyPopulationNum, doFetch, renderYearsArray } from "../js/helpers.js";
+import { countries } from '../js/countries'
 
 class SingleCountries extends React.Component{
   constructor(props){
@@ -27,14 +29,20 @@ class SingleCountries extends React.Component{
     // one country -> 20 years
     // http://api.population.io/1.0/population/2018/Belgium/
 
+    // but check if the country is in the array of countries
+    
+
     const fetch = doFetch(this.years, this.props.match.params.country);
 
     Promise.all(fetch)
       .then( values => {
         const combinedData = values.map((value, i) => {
+          //console.log(value);
           if(!value){ // if there was no response, return undefined as data
             //return { 'year': this.props.years[i], 'population': undefined };
+            //console.log('no data available')
             return undefined;
+
           }else{ // else return the data
             //return { 'year': this.props.years[i], 'population': value };
             return value;
@@ -45,7 +53,10 @@ class SingleCountries extends React.Component{
         isLoading: false
       });
     })
-    .catch(error => this.setState({ error: error, isLoading: false }));
+    .catch(error => {
+      this.setState({ error: error, isLoading: false })
+      console.log('error!!!', error)
+    });
 
   }
 

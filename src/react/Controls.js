@@ -3,15 +3,9 @@ import { countries } from '../js/countries';
 import { renderYearsArray } from '../js/helpers';
 
 const Controls = (props) => {
-  //console.log('controles props', props);
-  //const viewAll = props.match ? false : true;
-  //console.log(viewAll);
 
   const currCountry = (props.match !== null) ? props.match.params.country : '';
   const years = currCountry === '' ? renderYearsArray(5) : renderYearsArray(20);
-
-  //this.years4Single = renderYearsArray(20);
-  //this.years4All = renderYearsArray(5);
 
   return(
 

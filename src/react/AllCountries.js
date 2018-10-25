@@ -79,7 +79,7 @@ class AllCountries extends React.Component {
 
     // do a new api fetch when the year props changes
     if ( this.props.year !== prevProps.year ){
-      console.log('fetching new year')
+      //console.log('fetching new year')
       this.handleFetch();
     }
 

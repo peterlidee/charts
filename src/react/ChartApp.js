@@ -6,11 +6,6 @@ import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
 import Footer from "./Footer";
 
-//import Loading from "./Loading";
-
-import {renderYearsArray, getYearFromDate} from '../js/helpers.js';
-
-
 // set some default values for all charts
 // no further default possible, to different :/
 import { defaults } from 'react-chartjs-2';
@@ -24,11 +19,11 @@ class ChartApp extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      view: 'all', // all - single
-      country: 'Belgium',
+      //view: 'all', // all - single
+      //country: 'Belgium',
       year: 2018,
-      isLoading: true,
-      data: [],
+      //isLoading: true,
+      //data: [],
       //error: false
     }
     this.countryOverviewRef = React.createRef();
@@ -144,7 +139,12 @@ class ChartApp extends React.Component{
       }
       this.props.history.push('/');
 
-    }else if(e.target.id === 'country'){  this.props.history.push(e.target.value);
+    }else if(e.target.id === 'country'){
+
+      // check if the target is available in countries array
+      // if not redirect else go there
+
+      this.props.history.push(e.target.value);
     }else if(e.target.id === 'year'){     this.setState({ year: e.target.value });
     }
   }
@@ -198,7 +198,7 @@ class ChartApp extends React.Component{
     // we solve this by checking the data
     // if the datastructure doesn't correspond to the state.view we keep showing the old component while the data loads
     // also expect no data yet (first load)
-    const dataType = this.checkDataType(this.state.data);
+    //const dataType = this.checkDataType(this.state.data);
 
     return (
 
