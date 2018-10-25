@@ -1,7 +1,13 @@
 import React from 'react';
+import { countries } from '../js/countries'
 
 const Controls = (props) => {
-  //console.log(props.years);
+  //console.log('controles props', props);
+  //const viewAll = props.match ? false : true;
+  //console.log(viewAll);
+
+  const currCountry = (props.match !== null) ? props.match.params.country : '';
+
   return(
 
     <div className="controls">
@@ -11,8 +17,8 @@ const Controls = (props) => {
           <span>Pick a year:</span>
           <div className="select__wrapper">
             <select value={props.year} id="year" onChange={(e) => props.handleControles(e)} className="select__style">
-              {props.view === 'single' && props.years4Single.sort().map(year => <option key={year} value={year}>{year}</option>)}
-              {props.view === 'all' && props.years4All.sort().map(year => <option key={year} value={year}>{year}</option>)}
+              {currCountry === '' && props.years4All.sort().map(year => <option key={year} value={year}>{year}</option>)}
+              {currCountry !== '' && props.years4Single.sort().map(year => <option key={year} value={year}>{year}</option>)}
             </select>
           </div>
         </label>
@@ -22,16 +28,16 @@ const Controls = (props) => {
         <label className="select__label">
           <span>Pick a country:</span>
           <div className="select__wrapper">
-            <select value={props.country || ''} id="country" onChange={(e) => props.handleControles(e)} className="select__style">
-              {props.view === 'all' && <option value=""></option>}
-              {props.countries.sort().map(country => <option key={country} value={country}>{country}</option>)}
+            <select value={currCountry} id="country" onChange={(e) => props.handleControles(e)} className="select__style">
+              {currCountry === '' && <option value=""></option>}
+              {countries.sort().map(country => <option key={country} value={country}>{country}</option>)}
             </select>
           </div>
         </label>
       </div>
 
       <div className="controle controle--3">
-        <input type="button" value="clear" id="clear" onClick={(e) => props.handleControles(e)} disabled={props.country === ''} className="controle__button" />
+        <input type="button" value="clear" id="clear" onClick={(e) => props.handleControles(e)} disabled={currCountry === ''} className="controle__button" />
       </div>
 
     </div>

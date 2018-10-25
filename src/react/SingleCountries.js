@@ -53,8 +53,11 @@ class SingleCountries extends React.Component{
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('comp did update')
-    //this.handleFetch();
+
+    // only update when the country change, don't when year changes cause data is already there
+    if(this.props.match.params.country !== prevProps.match.params.country){
+      this.handleFetch();
+    }
 
   }
 
@@ -184,7 +187,7 @@ class SingleCountries extends React.Component{
 
     // [4] average and mean per year for total, male, female
     const averagesCurrYear = dataCurrYear.map(item => {
-      console.log(item);
+      //console.log(item);
       if(item !== undefined){
         const total = item.reduce((acc, curr) => {
           acc.sumTotal += (curr.total * curr.age);
@@ -220,14 +223,12 @@ class SingleCountries extends React.Component{
 
     return(
       <div className="singleCountry">
-
         <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
         <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
         <div className="half-charts__container">
           <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.match.params.country} year={this.props.year} />
           <SingleAverages blob={averagesCurrYear[0]} country={this.props.match.params.country} year={this.props.year} />
         </div>
-
       </div>
     );
   }

@@ -45,12 +45,12 @@ class ChartApp extends React.Component{
 
     // 3 arrays: one with all the countries, one with all the years (20) for single and one with all the years for all
     // (the api only provides a limited amount of available years!!!)
-    this.countries = [
+    /*this.countries = [
       'Belgium', 'France', 'Luxembourg', 'Germany', 'The Netherlands', 'Spain', 'Italy', 'Greece',
       'Portugal', 'Austria', 'Denmark', 'Norway', 'Sweden', 'Finland', 'Ireland', 'Poland', 'Estonia',
       'Latvia', 'Lithuania', 'Slovak Republic', 'United Kingdom', 'Croatia', 'Serbia',
       'Bosnia and Herzegovina', 'Bulgaria', 'Czech Republic', 'Hungary', 'Slovenia', 'Switzerland'
-    ];
+    ];*/
     this.years4Single = renderYearsArray(20);
     this.years4All = renderYearsArray(5);
   }
@@ -134,47 +134,24 @@ class ChartApp extends React.Component{
 
   handleControles(e){
 
-    if(e.target.id === 'all' || e.target.id === 'clear'){
+    // we could have handled clear and country in the comp itself by using
+    // history.push but we didn't because see comments clear
+    // so, we didn't do it with country either
+    // this did require us to wrap ChartApp (this) in a withRouter
+
+    if(e.target.id === 'clear'){
 
       // if the view changes from single to all there is a potential problem
       // because the all view is only available 2013+ (single 1998+)
       // so we need to handle this
-      const oldView = this.state.view;
-      const oldYear = +this.state.year;
 
-      if(oldView === 'single' && oldYear < 2014){
-        this.setState({
-          view: 'all',
-          country: '',
-          year: 2014
-        });
-      }else{
-        this.setState({
-          view: 'all',
-          country: '',
-        });
+      if(this.state.year < 2014){
+        this.setState({ year: 2014 });
       }
-
-    }else if(e.target.id === 'year'){
-      // don't allow values below the lowest possible year
-      this.setState({
-        year: e.target.value
-      });
-
-
-    }else if(e.target.id === 'country'){
-
-      //console.log('country changed', this.props);
-
-      /*this.setState({
-        view: 'single',
-        country: e.target.value
-      });*/
-
-      //<Redirect to="/Belgium" push />
-      //console.log(this.props);
-      this.props.history.push(e.target.value);
-
+      this.props.history.push('/');
+      
+    }else if(e.target.id === 'country'){  this.props.history.push(e.target.value);
+    }else if(e.target.id === 'year'){     this.setState({ year: e.target.value });
     }
   }
 
@@ -218,7 +195,10 @@ class ChartApp extends React.Component{
 
   render(){
 
-    //console.log(this.state.data);
+
+    // check if country exists!!!!!!!!!!!
+
+    //if(this.props.match.params.country === undefined)
 
     // if isLoading = true it means that there's a problem
     // the new data hasn't arrived yet but the new components are getting mounted
@@ -232,16 +212,16 @@ class ChartApp extends React.Component{
 
       <div>
 
-        {/*<Route>*/}
-          <Controls
-            view={this.state.view}
-            country={this.state.country}
-            countries={this.countries}
+        <Route path="/:country" children={ props =>
+          <Controls {...props}
+            //view={this.state.view}
+            //country={''}
+            //countries={this.countries}
             year={this.state.year}
             years4Single={this.years4Single}
             years4All={this.years4All}
             handleControles={this.handleControles} />
-        {/*</Route>*/}
+        }/>
 
         {this.state.isLoading && <Loading />}
 
@@ -267,7 +247,7 @@ class ChartApp extends React.Component{
                   //data={this.state.data}
                   year={this.state.year}
                   //country={this.getCountryFromData(this.state.data)} />
-                  country={this.state.country}
+                  //country={this.state.country}
                   years={this.years4Single} />
             }/>
 
