@@ -45,9 +45,9 @@ class AllCountries extends React.Component {
         isLoading: false,
       });
     })
-    .catch(error => {
+    .catch(error => {  /* isn't used */
       this.props.history.push('/notfound');
-      this.setState({ isLoading: false }) /* isn't used */
+      this.setState({ isLoading: false });
     });
   }
 
@@ -166,13 +166,11 @@ class AllCountries extends React.Component {
           //years4All={this.years4All}
           handleControles={this.props.handleControles} />*/}
 
-        <div className="container">
           <div className="chart__container">
             {this.state.isLoading && <Loading />}
             <h2 className="chart__title">European populations in {this.props.year}</h2>
             <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
           </div>
-        </div>
 
       </>
     )

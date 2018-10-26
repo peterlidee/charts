@@ -19,12 +19,10 @@ const NotFound = (props)=> {
         //years4All={this.years4All}
         handleControles={props.handleControles} />*/}
 
-      <div className="container">
         <div className="chart__container">
           <h2 className="chart__title">Not Found</h2>
           <p>There's no data available for this selection. Go to the <Link to='/'>start page</Link> and try again.</p>
         </div>
-      </div>
 
     </>
 

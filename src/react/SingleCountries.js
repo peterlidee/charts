@@ -257,7 +257,6 @@ class SingleCountries extends React.Component{
           //years4All={this.years4All}
           handleControles={this.props.handleControles} />*/}
 
-        <div className="container">
           {this.state.isLoading && <Loading />}
           <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
           <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
@@ -266,7 +265,6 @@ class SingleCountries extends React.Component{
             <SingleAverages blob={averagesCurrYear[0]} country={this.props.match.params.country} year={this.props.year} />
           </div>
 
-        </div>
 
       </>
 
