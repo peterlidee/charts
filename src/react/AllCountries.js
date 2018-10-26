@@ -5,7 +5,6 @@ import {countries} from '../js/countries';
 import Loading from "./Loading";
 import {HorizontalBar} from 'react-chartjs-2';
 
-import Controls from "./Controls";
 
 class AllCountries extends React.Component {
   constructor(props){
@@ -19,7 +18,6 @@ class AllCountries extends React.Component {
     this.handleFetch = this.handleFetch.bind(this);
 
   }
-
 
   handleFetch(){
 
@@ -84,7 +82,6 @@ class AllCountries extends React.Component {
 
     // do a new api fetch when the year props changes
     if ( this.props.year !== prevProps.year ){
-      //console.log('fetching new year')
       this.handleFetch();
     }
 
@@ -153,25 +150,11 @@ class AllCountries extends React.Component {
 
     return (
       <>
-
-        {/*}<Controls
-          //view={this.state.view}
-          //country={''}
-          //countries={this.countries}
-          //props={this.props}
-          history={this.props.history}
-          match={this.props.match}
-          year={this.props.year}
-          //years4Single={this.years4Single}
-          //years4All={this.years4All}
-          handleControles={this.props.handleControles} />*/}
-
-          <div className="chart__container">
-            {this.state.isLoading && <Loading />}
-            <h2 className="chart__title">European populations in {this.props.year}</h2>
-            <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
-          </div>
-
+        <div className="chart__container">
+          {this.state.isLoading && <Loading />}
+          <h2 className="chart__title">European populations in {this.props.year}</h2>
+          <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
+        </div>
       </>
     )
   }

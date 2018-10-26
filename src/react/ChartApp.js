@@ -8,7 +8,7 @@ import Footer from "./Footer";
 import NotFound from "./NotFound";
 
 // set some default values for all charts
-// no further default possible, to different :/
+// no further default possible, too different :/
 import { defaults } from 'react-chartjs-2';
 defaults.global.tooltips.mode = 'index';
 defaults.global.tooltips.intersect = false;

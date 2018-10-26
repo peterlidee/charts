@@ -1,6 +1,4 @@
 import React from "react";
-
-import Controls from "./Controls";
 import SingleYears from "./SingleYears";
 import SingleAgeGroups from "./SingleAgeGroups";
 import SingleMaleFemale from "./SingleMaleFemale";
@@ -38,10 +36,6 @@ class SingleCountries extends React.Component{
       // redirect to elsewhere
       this.props.history.push('/notfound');
     }
-    // second catch will be the error one below promise
-    // where no data is returned for some reason
-
-    // also handle fetches in AllCountries
 
     const fetch = doFetch(this.years, this.props.match.params.country);
 
@@ -61,51 +55,26 @@ class SingleCountries extends React.Component{
       });
   }
 
-
   componentDidMount() {
-
-    //console.log('comp singleCountries did mount')
     // call the data and put it in state
     this.handleFetch();
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-
     // only update when the country change, don't when year changes cause data is already there
     if(this.props.match.params.country !== prevProps.match.params.country){
       this.handleFetch();
     }
-
   }
-
-
-
 
   render(){
 
     const rawData = [...this.state.blob];
-    console.log('render singleCountry')
-    //console.log(years);
-    //console.log('countryData', rawData);
 
     // gather relevant data arrays [1],[2],[3],[4]
 
     // [1] get total pop in curr country for every year
-    /*let totalsPerYear = {
-      year : [],
-      total: [],
-      males: [],
-      females: []
-    };*/
-
     const countryPerYear = rawData.map(item => {
-      // item.reduce
-      // console.log(item);
-      // handle no data
-      /*if(item.population === undefined){
-        return { year: item.year, total: 0, males: 0, females: 0 };
-      }*/
       // reduce to single data point
       const totals = item.reduce((acc, curr) => {
         acc.total += curr.total;
@@ -118,40 +87,13 @@ class SingleCountries extends React.Component{
     });
     //console.log('countryPerYear', countryPerYear);
 
-
-    // convert to arrays
-    /*countryPerYear.map(year => {
-      Object.keys(year).map((key, i) => {
-        totalsPerYear[key].push(year[key]);
-      });
-    });
-    console.log('totalsPerYear', totalsPerYear);*/
-
-    //console.log('hello')
-
-
     // get current year
     const dataCurrYear = rawData.filter( item => item[0].year === +this.props.year );
 
-    // [2] get for one given year,
-    // -> the population per age group
-    /*let ageGroupsData = {
-      //labels : ['-18', '18-44', '45-65', '65+'],
-      labels : ['-10','10s','20s','30s','40s','50s','60s','70s','80s','90s'],
-      total: [],
-      males: [],
-      females: []
-    };*/
+    // [2] get for one given year -> the population per age group
 
-    //const ageGroupRanges = [[0,17], [18,44], [45,65], [66,150]];
+    // these are the ranges we use
     const ageGroupRanges = [[0,9], [10, 19], [20,29], [30,39], [40,49], [50,59], [60,69], [70,79], [80,89], [90,150]];
-    //const ageGroupLabels = ['-18', '18-44', '45-65', '65+'];
-
-    // reduce the data to the totals of these ageGroups
-    // per agegroup -> {total: x, males: x, females: x}
-
-
-    //console.log('dataCurrYear', dataCurrYear);
 
     // filter per agegroup
     const agesPerAgeGroup = ageGroupRanges.map(ageGroupRange => {
@@ -170,28 +112,6 @@ class SingleCountries extends React.Component{
     });
     //console.log('agesPerAgeGroup', agesPerAgeGroup);
 
-    /*const ageGroupTotals = agesPerAgeGroup.map(item => {
-      if(item !== undefined){
-        return item.reduce((acc, curr) => {
-          acc.total += curr.total;
-          acc.males += curr.males;
-          acc.females += curr.females;
-          return acc;
-        }, { total: 0, males: 0, females: 0 })
-      }
-    });
-
-    // convert to arrays
-    ageGroupTotals.map((item, i) => {
-      if(item !== undefined){
-        Object.keys(item).map(key =>{
-          ageGroupsData[key].push(item[key]);
-        });
-      }
-    });
-    //console.log(ageGroupsData);
-    */
-
 
     // [3] male/female numbers curr year
     const maleFemaleCurrYear = agesPerAgeGroup.reduce((acc, curr) => {
@@ -204,10 +124,8 @@ class SingleCountries extends React.Component{
     //console.log('maleFemaleCurrYear', maleFemaleCurrYear);
 
 
-
     // [4] average and mean per year for total, male, female
     const averagesCurrYear = dataCurrYear.map(item => {
-      //console.log(item);
       if(item !== undefined){
         const total = item.reduce((acc, curr) => {
           acc.sumTotal += (curr.total * curr.age);
@@ -218,7 +136,6 @@ class SingleCountries extends React.Component{
           acc.allFemales += curr.females;
           return acc;
         }, { sumTotal: 0, allTotal: 0, sumMales: 0, allMales: 0, sumFemales: 0, allFemales: 0 });
-        //console.log(total);
         const averages = {
           total: Math.round(total.sumTotal / total.allTotal),
           males: Math.round(total.sumMales / total.allMales),
@@ -227,49 +144,17 @@ class SingleCountries extends React.Component{
         return averages;
       }
     });
-    //console.log('averageCurrYear', averagesCurrYear[0]);
-
-    // convert to arrays
-    /*let singleAveragesData = {};
-
-    averagesCurrYear.map(item => {
-      if(item !== undefined){
-        const keys = [...Object.keys(item)];
-        singleAveragesData.labels = keys;
-        singleAveragesData.data = keys.map(key => item[key]);
-      }
-    });*/
-    //console.log('singleAveragesData', singleAveragesData);
 
     return(
-
       <>
-
-        {/*}<Controls
-          //view={this.state.view}
-          //country={''}
-          //countries={this.countries}
-          //props={this.props}
-          history={this.props.history}
-          match={this.props.match}
-          year={this.props.year}
-          //years4Single={this.years4Single}
-          //years4All={this.years4All}
-          handleControles={this.props.handleControles} />*/}
-
-          {this.state.isLoading && <Loading />}
-          <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
-          <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
-          <div className="half-charts__container">
-            <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.match.params.country} year={this.props.year} />
-            <SingleAverages blob={averagesCurrYear[0]} country={this.props.match.params.country} year={this.props.year} />
-          </div>
-
-
+        {this.state.isLoading && <Loading />}
+        <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
+        <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
+        <div className="half-charts__container">
+          <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.match.params.country} year={this.props.year} />
+          <SingleAverages blob={averagesCurrYear[0]} country={this.props.match.params.country} year={this.props.year} />
+        </div>
       </>
-
-
-
     );
   }
 }
