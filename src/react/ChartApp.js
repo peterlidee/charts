@@ -5,6 +5,9 @@ import Controls from "./Controls";
 import AllCountries from "./AllCountries";
 import SingleCountries from "./SingleCountries";
 import Footer from "./Footer";
+import NotFound from "./NotFound";
+
+import { countries } from "../js/countries";
 
 // set some default values for all charts
 // no further default possible, to different :/
@@ -143,8 +146,11 @@ class ChartApp extends React.Component{
 
       // check if the target is available in countries array
       // if not redirect else go there
+      //if(countries.includes(e.target.value))
+      //console.log('in countries', e.target.value, countries, countries.includes(e.target.value));
 
       this.props.history.push(e.target.value);
+
     }else if(e.target.id === 'year'){     this.setState({ year: e.target.value });
     }
   }
@@ -200,24 +206,28 @@ class ChartApp extends React.Component{
     // also expect no data yet (first load)
     //const dataType = this.checkDataType(this.state.data);
 
+    console.log('chartApp props', this.props)
+
     return (
 
-      <div>
+      <>
 
-        <Route path="/:country" children={ props =>
+        {/*}<Route children={ props =>
           <Controls {...props}
-            //view={this.state.view}
-            //country={''}
-            //countries={this.countries}
             year={this.state.year}
-            //years4Single={this.years4Single}
-            //years4All={this.years4All}
             handleControles={this.handleControles} />
-        }/>
+        }/>*/}
+
+        <Controls
+          year={this.state.year}
+          handleControles={this.handleControles}
+          pathName={this.props.location.pathname}
+          />
 
         {/*this.state.isLoading && <Loading />*/}
 
-        <div className="container">
+        {/*<div className="container">
+        <div>*/}
 
           <Switch>
 
@@ -226,8 +236,18 @@ class ChartApp extends React.Component{
               render={props =>
                 <AllCountries {...props}
                   handleCountrySelect={this.handleCountrySelect}
+                  //handleControles={this.handleControles}
                   ref={this.countryOverviewRef}
                   year={this.state.year} />
+            }/>
+
+            <Route
+              path="/notfound"
+              render={props =>
+                <NotFound {...props}
+                  //handleControles={this.handleControles}
+                  //year={this.state.year}
+                  />
             }/>
 
             <Route
@@ -236,51 +256,28 @@ class ChartApp extends React.Component{
                 <SingleCountries {...props}
                   //data={this.state.data}
                   year={this.state.year}
+                  //handleControles={this.handleControles}
                   //country={this.getCountryFromData(this.state.data)} />
                   //country={this.state.country}
                   //years={this.years4Single}
                   />
             }/>
 
-
-            {/*<Route exact path="/" render={props => <Test1 message="Heloo" />} />
-            <Route path="/:country" component={Test2} />*/}
-            {/*<Route exact
-              path="/"
-              render={props =>
-                <AllCountries
-                  data={this.state.data}
-                  handleCountrySelect={this.handleCountrySelect}
-                  ref={this.countryOverviewRef}
-                  year={this.state.year} />}
-
             <Route
-              path="/:country"
               render={props =>
-                <SingleCountries
-                  data={this.state.data}
-                  year={this.state.year}
-                  country={this.getCountryFromData(this.state.data)} />}*/}
+                <NotFound {...props}
+                  //handleControles={this.handleControles}
+                  //year={this.state.year}
+                  />
+            }/>
+
           </Switch>
-
-          {/*dataType === 'all' &&
-            <AllCountries
-              data={this.state.data}
-              handleCountrySelect={this.handleCountrySelect}
-              ref={this.countryOverviewRef}
-              year={this.state.year} />}
-
-          {dataType === 'single' &&
-            <SingleCountries
-              data={this.state.data}
-              year={this.state.year}
-              country={this.getCountryFromData(this.state.data)} />*/}
 
           <Footer />
 
-        </div>
+        {/*</div>*/}
 
-      </div>
+      </>
     );
   };
 };

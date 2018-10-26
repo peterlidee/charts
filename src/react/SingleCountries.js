@@ -1,5 +1,6 @@
 import React from "react";
 
+import Controls from "./Controls";
 import SingleYears from "./SingleYears";
 import SingleAgeGroups from "./SingleAgeGroups";
 import SingleMaleFemale from "./SingleMaleFemale";
@@ -29,35 +30,35 @@ class SingleCountries extends React.Component{
     // one country -> 20 years
     // http://api.population.io/1.0/population/2018/Belgium/
 
-    // but check if the country is in the array of countries
-    
+    // check if the country is in the array of countries
+    // this should catch 'wild' parameters too, fe /blabla
+    // if not -> message no data available for this country in the app
+    if(!countries.includes(this.props.match.params.country)){
+      // the country is not in the countries list!!
+      // redirect to elsewhere
+      this.props.history.push('/notfound');
+    }
+    // second catch will be the error one below promise
+    // where no data is returned for some reason
+
+    // also handle fetches in AllCountries
 
     const fetch = doFetch(this.years, this.props.match.params.country);
 
     Promise.all(fetch)
       .then( values => {
-        const combinedData = values.map((value, i) => {
-          //console.log(value);
-          if(!value){ // if there was no response, return undefined as data
-            //return { 'year': this.props.years[i], 'population': undefined };
-            //console.log('no data available')
-            return undefined;
-
-          }else{ // else return the data
-            //return { 'year': this.props.years[i], 'population': value };
-            return value;
-          }
-        });
-      this.setState({
-        blob: combinedData,
-        isLoading: false
+        const combinedData = values.map( value => value );
+        if(!combinedData.includes(false)){
+          this.setState({ blob: combinedData, isLoading: false });
+        }else{
+          this.props.history.push('/notfound');
+        }
+      })
+      .catch( error => {
+        //console.log('catch', error)
+        // don't know when this could be used ...
+        this.props.history.push('/notfound');
       });
-    })
-    .catch(error => {
-      this.setState({ error: error, isLoading: false })
-      console.log('error!!!', error)
-    });
-
   }
 
 
@@ -84,7 +85,7 @@ class SingleCountries extends React.Component{
   render(){
 
     const rawData = [...this.state.blob];
-
+    console.log('render singleCountry')
     //console.log(years);
     //console.log('countryData', rawData);
 
@@ -241,15 +242,36 @@ class SingleCountries extends React.Component{
     //console.log('singleAveragesData', singleAveragesData);
 
     return(
-      <div className="singleCountry">
-        {this.state.isLoading && <Loading />}
-        <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
-        <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
-        <div className="half-charts__container">
-          <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.match.params.country} year={this.props.year} />
-          <SingleAverages blob={averagesCurrYear[0]} country={this.props.match.params.country} year={this.props.year} />
+
+      <>
+
+        {/*}<Controls
+          //view={this.state.view}
+          //country={''}
+          //countries={this.countries}
+          //props={this.props}
+          history={this.props.history}
+          match={this.props.match}
+          year={this.props.year}
+          //years4Single={this.years4Single}
+          //years4All={this.years4All}
+          handleControles={this.props.handleControles} />*/}
+
+        <div className="container">
+          {this.state.isLoading && <Loading />}
+          <SingleYears blob={countryPerYear} country={this.props.match.params.country} />
+          <SingleAgeGroups blob={agesPerAgeGroup} country={this.props.match.params.country} year={this.props.year} />
+          <div className="half-charts__container">
+            <SingleMaleFemale blob={maleFemaleCurrYear} country={this.props.match.params.country} year={this.props.year} />
+            <SingleAverages blob={averagesCurrYear[0]} country={this.props.match.params.country} year={this.props.year} />
+          </div>
+
         </div>
-      </div>
+
+      </>
+
+
+
     );
   }
 }

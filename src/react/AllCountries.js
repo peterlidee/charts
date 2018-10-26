@@ -5,6 +5,8 @@ import {countries} from '../js/countries';
 import Loading from "./Loading";
 import {HorizontalBar} from 'react-chartjs-2';
 
+import Controls from "./Controls";
+
 class AllCountries extends React.Component {
   constructor(props){
     super(props);
@@ -43,7 +45,10 @@ class AllCountries extends React.Component {
         isLoading: false,
       });
     })
-    .catch(error => this.setState({ error: error, isLoading: false })); /* isn't used */
+    .catch(error => {
+      this.props.history.push('/notfound');
+      this.setState({ isLoading: false }) /* isn't used */
+    });
   }
 
   componentDidMount() {
@@ -147,11 +152,29 @@ class AllCountries extends React.Component {
     }
 
     return (
-      <div className="chart__container">
-        {this.state.isLoading && <Loading />}
-        <h2 className="chart__title">European populations in {this.props.year}</h2>
-        <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
-      </div>
+      <>
+
+        {/*}<Controls
+          //view={this.state.view}
+          //country={''}
+          //countries={this.countries}
+          //props={this.props}
+          history={this.props.history}
+          match={this.props.match}
+          year={this.props.year}
+          //years4Single={this.years4Single}
+          //years4All={this.years4All}
+          handleControles={this.props.handleControles} />*/}
+
+        <div className="container">
+          <div className="chart__container">
+            {this.state.isLoading && <Loading />}
+            <h2 className="chart__title">European populations in {this.props.year}</h2>
+            <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
+          </div>
+        </div>
+
+      </>
     )
   }
 }

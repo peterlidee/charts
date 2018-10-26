@@ -27,5 +27,5 @@ export const countries = [
   'Czech Republic',
   'Hungary',
   'Slovenia',
-  'Switzerland2'
+  'Switzerland'
 ];

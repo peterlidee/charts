@@ -4,7 +4,9 @@ import { renderYearsArray } from '../js/helpers';
 
 const Controls = (props) => {
 
-  const currCountry = (props.match !== null) ? props.match.params.country : '';
+  console.log('controles', props);
+
+  const currCountry = props.pathName === '/' || props.pathName === '/notfound' ? '' : props.pathName.substring(1);
   const years = currCountry === '' ? renderYearsArray(5) : renderYearsArray(20);
 
   return(
@@ -35,7 +37,7 @@ const Controls = (props) => {
       </div>
 
       <div className="controle controle--3">
-        <input type="button" value="clear" id="clear" onClick={(e) => props.handleControles(e)} disabled={currCountry === ''} className="controle__button" />
+        <input type="button" value="clear" id="clear" onClick={(e) => props.handleControles(e)} disabled={props.pathName === '/'} className="controle__button" />
       </div>
 
     </div>
