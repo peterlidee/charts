@@ -29,3 +29,21 @@ export function renderYearsArray(num){
 export function getYearFromDate(date){
   return +date.split('-')[0];
 }
+
+
+// this does the fetch to the api
+export function doFetch(arr, param){
+  return arr.map(item => {
+    // all countries in 2018 -> state.view all
+    // http://api.population.io/1.0/population/${country}/2018-01-01/ -> min 2013 !!!
+    // all years -> state.view single
+    // http://api.population.io/1.0/population/${year}/Belgium/
+    const endpoint = `http://api.population.io/1.0/population/${item}/${param}/`;
+    //console.log(endpoint);
+    return fetch(endpoint)
+      .then(response => {
+        // return false as value if the response was not ok
+        return response.ok ? response.json() : false;
+      })
+  });
+}

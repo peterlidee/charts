@@ -53,5 +53,12 @@ module.exports = {
       //cssProcessorOptions: { discardComments: { removeAll: false } },
       //canPrint: true
     }),*/
-  ]
+  ],
+  /*devServer: {
+    port: 8080, // most common port
+    //contentBase: './public',
+    //contentBase: './',
+    inline: true,
+    historyApiFallback: true,
+  }*/
 };

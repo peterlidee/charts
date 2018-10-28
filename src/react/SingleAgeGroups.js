@@ -1,20 +1,20 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
-import {prettyfyPopulationNum} from '../helpers.js';
-import {colors} from '../colors';
+import {prettyfyPopulationNum} from '../js/helpers.js';
+import {colors} from '../js/colors';
 
 class SingleAgeGroups extends React.Component{
   constructor(props){
     super(props)
   }
   render(){
-    //console.log(this.props.blob);
+    //console.log('blob', this.props.blob);
     const data = {
       datasets: [
         {
           label: 'males',
           type:'bar',
-          data: this.props.blob.males || [],
+          data: this.props.blob.map(item => item !== undefined ? item.males : 0),
           backgroundColor: colors.males,
           hoverBackgroundColor: colors.males,
           borderWidth: 3,
@@ -24,7 +24,7 @@ class SingleAgeGroups extends React.Component{
         {
           type: 'bar',
           label: 'females',
-          data: this.props.blob.females || [],
+          data: this.props.blob.map(item => item !== undefined ? item.females : 0),
           backgroundColor: colors.females,
           hoverBackgroundColor: colors.females,
           borderWidth: 3,
@@ -34,7 +34,7 @@ class SingleAgeGroups extends React.Component{
         {
           type: 'line',
           label: 'total population',
-          data: this.props.blob.total  || [],
+          data: this.props.blob.map(item => item !== undefined ? item.total : 0),
           fill: false,
           backgroundColor: colors.total,
           borderWidth: 3,
@@ -62,7 +62,7 @@ class SingleAgeGroups extends React.Component{
       },
       scales: {
         xAxes: [{
-          labels: this.props.blob.labels,
+          labels: ['-10','10s','20s','30s','40s','50s','60s','70s','80s','90s'],
           scaleLabel: {
             display: true,
             labelString: 'age groups'

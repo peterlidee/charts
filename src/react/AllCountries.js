@@ -1,20 +1,59 @@
 import React from 'react';
+import {prettyfyPopulationNum, doFetch, getYearFromDate} from '../js/helpers.js';
+import {colors} from '../js/colors';
+import {countries} from '../js/countries';
+import Loading from "./Loading";
 import {HorizontalBar} from 'react-chartjs-2';
-import {prettyfyPopulationNum} from '../helpers.js';
-import {colors} from '../colors';
+
 
 class AllCountries extends React.Component {
   constructor(props){
     super(props);
-    //this.test = this.test.bind(this);
+    this.state = {
+      isLoading: true,
+      blob: [],
+    }
     this.horizontalBarRef = React.createRef();
+    this.countries = countries.sort((a, b) => a > b);
+    this.handleFetch = this.handleFetch.bind(this);
+
+  }
+
+  handleFetch(){
+
+    this.setState({ isLoading: true });
+
+    // view all
+    // all the countries -> the total population -> 2018
+    // http://api.population.io/1.0/population/Belgium/2018-01-01/
+
+    const fetch = doFetch(countries, `${this.props.year}-01-01`);
+
+    Promise.all(fetch)
+      .then( values => {
+        const combinedData = values.map((value, i) => {
+          if(!value){ // if there was no response, return undefined as data
+            return { 'countryName': this.countries[i], 'population': undefined, 'year': this.state.year }
+          }else{ // else return the data
+            return { 'countryName': this.countries[i], 'population': value.total_population.population, 'year': getYearFromDate(value.total_population.date) };
+          }
+        });
+      this.setState({
+        blob: combinedData,
+        isLoading: false,
+      });
+    })
+    .catch(error => {  /* isn't used */
+      this.props.history.push('/notfound');
+      this.setState({ isLoading: false });
+    });
   }
 
   componentDidMount() {
 
     // chart.js does not have an onClick handler for ticks, so we write it here
     // this handles clicks on ticks, see also options .onclick for clicks on bars
-  	Chart.pluginService.register({
+    Chart.pluginService.register({
       afterEvent: function handleTickClick(chartInstance, chartEvent) {
 
         if( chartEvent.type === 'click'){
@@ -32,27 +71,34 @@ class AllCountries extends React.Component {
           }
         }
       }
-  	});
+    });
+
+    // call the data and put it in state
+    this.handleFetch();
+
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+
+    // do a new api fetch when the year props changes
+    if ( this.props.year !== prevProps.year ){
+      this.handleFetch();
+    }
 
   }
 
   render() {
 
-    const rawData = this.props.data.map(item => {
-      if(item.population === undefined){
-        return { population: 0, countryName: item.countryName }
-      }else{
-        return item;
-      }
-    }).sort((a, b) => a.population < b.population);
-    //console.log(rawData);
+    // sort the data from hightest to lowest population once the data loads
+    const sortedData = this.state.blob[0] !== undefined ? this.state.blob.sort((a, b) => a.population < b.population) : this.state.blob;
 
+    // data obj with settings to feed to HorizontalBar comp
     const data = {
-      labels: rawData.map(item => item.countryName),
+      labels: sortedData.map(item => item.countryName),
       datasets: [
         {
           label: 'population',
-          data: rawData.map(item => item.population),
+          data: sortedData.map(item => item.population),
           backgroundColor: colors.total,
           hoverBackgroundColor: colors.total,
           borderWidth: 0,
@@ -60,6 +106,7 @@ class AllCountries extends React.Component {
       ]
     };
 
+    // options obj with settings to feed to HorizontalBar comp
     const options = {
       scales: {
         xAxes: [{
@@ -76,7 +123,7 @@ class AllCountries extends React.Component {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'countries'
+            labelString: 'countries',
           },
         }]
       },
@@ -101,14 +148,14 @@ class AllCountries extends React.Component {
       },
     }
 
-    //get the year from data, not from state!!
-    const currYear = rawData[0].year;
-
     return (
-      <div className="chart__container">
-        <h2 className="chart__title">European populations in {currYear}</h2>
-        <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
-      </div>
+      <>
+        <div className="chart__container">
+          {this.state.isLoading && <Loading />}
+          <h2 className="chart__title">European populations in {this.props.year}</h2>
+          <HorizontalBar data={data} options={options} onElementsClick={this.props.handleCountrySelect} ref={this.horizontalBarRef} />
+        </div>
+      </>
     )
   }
 }

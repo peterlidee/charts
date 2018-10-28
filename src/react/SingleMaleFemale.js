@@ -1,16 +1,17 @@
 import React from 'react';
 import {Doughnut} from 'react-chartjs-2';
-import {prettyfyPopulationNum} from '../helpers.js';
-import {colors} from '../colors';
+import {prettyfyPopulationNum} from '../js/helpers.js';
+import {colors} from '../js/colors';
 
 class SingleMaleFemale extends React.Component{
   constructor(props){
     super(props)
   }
   render(){
-    //console.log(this.props.maleFemaleCurrYear);
+
+    //console.log('blob', this.props.blob);
     const maleFemaleData = this.props.blob;
-    const maleFemaleKeys = Object.keys(maleFemaleData);
+    const maleFemaleKeys = maleFemaleData !== undefined ? Object.keys(maleFemaleData) : [];
 
     const data = {
     	labels: maleFemaleKeys,

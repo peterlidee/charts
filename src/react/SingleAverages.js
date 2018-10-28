@@ -1,7 +1,6 @@
 import React from 'react';
 import {HorizontalBar} from 'react-chartjs-2';
-import {prettyfyPopulationNum} from '../helpers.js';
-import {colors} from '../colors';
+import {colors} from '../js/colors';
 
 class SingleAverages extends React.Component{
   constructor(props){
@@ -9,14 +8,18 @@ class SingleAverages extends React.Component{
   }
   render(){
 
+    //console.log('blob', this.props.blob);
+    const averages = this.props.blob;
+    const averagesKeys = averages !== undefined ? Object.keys(averages) : [];
+
     const data = {
-      labels: this.props.blob.labels || [],
+      labels: averagesKeys,
       datasets: [
         {
           backgroundColor: [colors.total, colors.males, colors.females],
           hoverBackgroundColor: [colors.total, colors.males, colors.females],
           borderWidth: 0,
-          data: this.props.blob.data || []
+          data: averagesKeys.map(key => averages[key])
         }
       ]
     };
