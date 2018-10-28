@@ -14,7 +14,6 @@ class SingleYears extends React.Component{
         {
           label: 'males',
           type:'bar',
-          //data: this.props.blob.males || [],
           data: this.props.blob.map(item => item.males),
           fill: false,
           backgroundColor: colors.males,

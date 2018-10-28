@@ -4,7 +4,7 @@ import { renderYearsArray } from '../js/helpers';
 
 const Controls = (props) => {
 
-  console.log('controles', props);
+  //console.log('controles', props);
 
   const currCountry = props.pathName === '/' || props.pathName === '/notfound' ? '' : props.pathName.substring(1);
   const years = currCountry === '' ? renderYearsArray(5) : renderYearsArray(20);
