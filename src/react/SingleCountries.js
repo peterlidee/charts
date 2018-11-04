@@ -17,7 +17,7 @@ class SingleCountries extends React.Component{
       isLoading: true,
     }
     this.handleFetch = this.handleFetch.bind(this);
-    this.years = renderYearsArray(20);
+    this.years = renderYearsArray(20).reverse();
   }
 
   handleFetch(){
