@@ -7,7 +7,7 @@ import style from "./sass/main.scss";
 
 const Root = () => {
   return(
-    <BrowserRouter>
+    <BrowserRouter basename="/charts">
       <ChartApp />
     </BrowserRouter>
   )

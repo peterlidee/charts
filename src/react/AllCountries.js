@@ -90,7 +90,8 @@ class AllCountries extends React.Component {
   render() {
 
     // sort the data from hightest to lowest population once the data loads
-    const sortedData = this.state.blob[0] !== undefined ? this.state.blob.sort((a, b) => a.population < b.population) : this.state.blob;
+    const sortedData = this.state.blob[0] !== undefined ? this.state.blob.sort((a, b) => b.population - a.population) : this.state.blob;
+    console.log(sortedData)
 
     // data obj with settings to feed to HorizontalBar comp
     const data = {
