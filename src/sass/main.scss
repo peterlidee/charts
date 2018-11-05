@@ -135,7 +135,7 @@ body{ padding-top: 10em; }
 .footer         { clear: both; padding: 2em 0 1em 0; font-family: Arial, sans-serif; line-height: 1.8em; color: #fff; text-align: center; }
 .footer__title  { display: block;}
 .footer__divider{ margin: 0 1em; }
-.footer__meta   { list-style: none; padding-left: 0; a { color: $yellow; }}
+.footer__meta   { list-style: none; padding-left: 0; a { color: $yellow; padding: 0 .25em; }}
 .footer__label  { font-variant: small-caps; margin-right: .5em; }
 
 @media screen and (min-width: 800px){
