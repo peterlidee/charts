@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NotFound = (props)=> {
-  //console.log(props)
+  console.log(props)
   return(
     <>
       <div className="chart__container">

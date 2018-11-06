@@ -31,10 +31,18 @@ class SingleCountries extends React.Component{
     // check if the country is in the array of countries
     // this should catch 'wild' parameters too, fe /blabla
     // if not -> message no data available for this country in the app
+
     if(!countries.includes(this.props.match.params.country)){
       // the country is not in the countries list!!
       // redirect to elsewhere
       this.props.history.push('/notfound');
+    }else{
+      // but we also want to catch extra folders of slashes like /Greece/ or /Greece/blablabla
+      // check if there is an extra slash or extra info
+      if('/' + this.props.match.params.country !== this.props.location.path){
+        // they don't match, redirect to the correct url
+        this.props.history.push('/' + this.props.match.params.country);
+      } // else: just do the rest of the code, country is correct and path is correct
     }
 
     const fetch = doFetch(this.years, this.props.match.params.country);

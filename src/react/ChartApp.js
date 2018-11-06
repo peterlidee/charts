@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 
 import Controls from "./Controls";
 import AllCountries from "./AllCountries";
@@ -65,10 +65,9 @@ class ChartApp extends React.Component{
   }
 
   render(){
-
+    //console.log(this.props);
     return (
       <>
-
         <Controls
           year={this.state.year}
           handleControles={this.handleControles}
@@ -100,10 +99,12 @@ class ChartApp extends React.Component{
                   year={this.state.year} />
             }/>
 
-            <Route
+            {/*}<Route
               render={props =>
                 <NotFound {...props} />
-            }/>
+            }/>{*/}
+
+            <Redirect to="/notfound" />
 
           </Switch>
         </div>
