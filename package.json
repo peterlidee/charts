@@ -4,8 +4,7 @@
   "description": "Portfolio project using charts.js",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --watch",
-    "start": "webpack-dev-server --mode development --open --history-api-fallback",
+    "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production"
   },
   "author": "peter@lidee",
