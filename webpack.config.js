@@ -72,7 +72,7 @@ module.exports = (env, argv) => {
     config.output.publicPath = '/';
   }
   if (argv.mode === 'production') {
-    config.output.publicPath = 'https://www.lidee.be/charts/';
+    config.output.publicPath = 'http://www.lidee.be/charts/';
   }
 
   return config;
