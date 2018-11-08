@@ -12,6 +12,7 @@ class SingleMaleFemale extends React.Component{
     //console.log('blob', this.props.blob);
     const maleFemaleData = this.props.blob;
     const maleFemaleKeys = maleFemaleData !== undefined ? Object.keys(maleFemaleData) : [];
+    console.log('keys', maleFemaleKeys);
 
     const data = {
     	labels: maleFemaleKeys,
@@ -26,6 +27,20 @@ class SingleMaleFemale extends React.Component{
     };
 
     const options = {
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: false,
+            labelString: ''
+          },
+        }],
+        yAxes: [{
+          scaleLabel: {
+            display: false,
+            labelString: ''
+          },
+        }]
+      },
       tooltips: {
         callbacks: {
           // add year label to tooltip label
