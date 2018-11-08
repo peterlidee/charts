@@ -12,7 +12,6 @@ class SingleMaleFemale extends React.Component{
     //console.log('blob', this.props.blob);
     const maleFemaleData = this.props.blob;
     const maleFemaleKeys = maleFemaleData !== undefined ? Object.keys(maleFemaleData) : [];
-    console.log('keys', maleFemaleKeys);
 
     const data = {
     	labels: maleFemaleKeys,
