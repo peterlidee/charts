@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer__title">Population statistics of different European countries - A portfolio project -</div>
       <ul className="footer__meta">
-        <li><span className="footer__label">data api</span> <a href="https://api.population.io/">http://api.population.io</a></li>
+        <li><span className="footer__label">data api</span> <a href="http://api.population.io/">http://api.population.io</a></li>
         <li><span className="footer__label">frameworks</span>
           <a href="https://reactjs.org/">react.js</a>
           |
