@@ -26,7 +26,7 @@ class SingleMaleFemale extends React.Component{
     };
 
     const options = {
-      scales: {
+      /*scales: {
         xAxes: [{
           scaleLabel: {
             display: false,
@@ -39,7 +39,7 @@ class SingleMaleFemale extends React.Component{
             labelString: ''
           },
         }]
-      },
+      },*/
       tooltips: {
         callbacks: {
           // add year label to tooltip label
