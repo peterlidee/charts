@@ -7,7 +7,7 @@ const Footer = () => {
       <ul className="footer__meta">
         <li>
           <span className="footer__label">data api</span>
-          <a href="http://api.population.io/" target="_blank">http://api.population.io</a>
+          <a href="http://d2n20kbuvlc98d.cloudfront.net/" target="_blank">http://api.population.io</a>
         </li>
         <li><span className="footer__label">frameworks</span>
           <a href="https://reactjs.org/" target="_blank">react.js</a>
