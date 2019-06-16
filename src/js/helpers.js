@@ -38,7 +38,10 @@ export function doFetch(arr, param){
     // http://api.population.io/1.0/population/${country}/2018-01-01/ -> min 2013 !!!
     // all years -> state.view single
     // http://api.population.io/1.0/population/${year}/Belgium/
-    const endpoint = `http://api.population.io/1.0/population/${item}/${param}/`;
+    //const endpoint = `http://api.population.io/1.0/population/${item}/${param}/`;
+    // 16/06/2019 new endpoint
+    // http://d2n20kbuvlc98d.cloudfront.net/
+    const endpoint = `http://d2n20kbuvlc98d.cloudfront.net/1.0/population/${item}/${param}/`;
     //console.log(endpoint);
     return fetch(endpoint)
       .then(response => {
